@@ -25,3 +25,16 @@
 .alcor-menu-custom-html input, .alcor-menu-icon select, .alcor-menu-image input{
 	width: 70%;
 }
+
+#customize-controls .alcor-customize-sidebar img {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 80px;
+}
+
+#customize-controls .alcor-customize-sidebar input {
+    position: relative;
+    vertical-align: middle;
+    margin-left: 10px;
+}

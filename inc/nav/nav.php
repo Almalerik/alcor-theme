@@ -88,4 +88,9 @@ $GLOBALS ['alcor_custom_menu'] = new alcor_custom_menu ();
 include_once ('custom-nav-menu.php');
 include_once ('custom-nav-walker.php');
 
+add_filter( 'wp_edit_nav_menu_walker', 'custom_nav_edit_walker',10,2 );
+function custom_nav_edit_walker($walker,$menu_id) {
+	return 'Walker_Nav_Menu_Edit_Custom';
+}
+
 

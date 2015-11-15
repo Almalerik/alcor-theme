@@ -116,6 +116,7 @@ add_action( 'widgets_init', 'alcor_widgets_init' );
 function alcor_scripts() {
 	
 	wp_enqueue_style( 'alcor-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
+	wp_enqueue_style( 'alcor-bootstrap-style', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' );
 	
 	wp_enqueue_style( 'alcor-style', get_stylesheet_uri() );
 
@@ -130,18 +131,25 @@ function alcor_scripts() {
 add_action( 'wp_enqueue_scripts', 'alcor_scripts' );
 
 function alcor_admin_script($hook) {
+	wp_register_style( 'alcor-admin-style', get_template_directory_uri() . '/assets/admin/css/admin.css' );
+	wp_enqueue_style( 'alcor-admin-style' );
+	
 	if ( 'nav-menus.php' != $hook ) {
 		return;
 	}
 	wp_enqueue_media();
 	wp_enqueue_style( 'alcor-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
 	wp_enqueue_style( 'alcor-select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1-rc.1/css/select2.min.css' );
-	wp_register_style( 'alcor-admin-style', get_template_directory_uri() . '/assets/admin/css/admin.css' );
-	wp_enqueue_style( 'alcor-admin-style' );
 	wp_enqueue_script( 'alcor-select2-script', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1-rc.1/js/select2.min.js', array('jquery') );
 	wp_enqueue_script( 'alcor-admin-script', get_template_directory_uri() . '/assets/admin/js/admin.js' );
 }
 add_action( 'admin_enqueue_scripts', 'alcor_admin_script' );
+
+/**
+ * Implement the theme class.
+ */
+require get_template_directory() . '/inc/alcor.php';
+$alcor = new Alcor_Theme();
 
 /**
  * Implement the Custom Header feature.
