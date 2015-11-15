@@ -1,0 +1,27 @@
+.alcor-hidden {
+	display: none;
+}
+
+.alcor-red {
+	color: red;
+}
+
+.alcor-menu-options, .alcor-menu-custom-html, .alcor-menu-icon, .alcor-menu-image {
+	width: 100%;
+	float: left;
+	padding: 15px 0;
+}
+
+.alcor-menu-options input{
+	width: 31%;
+}
+
+.alcor-menu-custom-html, .alcor-menu-icon, .alcor-menu-image {
+	width: 100%;
+	float: left;
+	padding: 5px 0;
+}
+
+.alcor-menu-custom-html input, .alcor-menu-icon select, .alcor-menu-image input{
+	width: 70%;
+}
