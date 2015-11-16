@@ -1,5 +1,5 @@
 <?php
-require_once 'wordpress-theme-customizer-custom-controls/layout/layout-picker-custom-control.php';
+require_once 'nav/layout/layout-picker-custom-control.php';
 
 /**
  * alcor Theme Customizer.
@@ -98,6 +98,29 @@ function alcor_customize_register($wp_customize) {
 			),
 			'priority' => 400
 	) );
+	
+	// ===== Alcor Header =====
+	$wp_customize->add_panel ( 'alcor_header', array (
+			'title' => esc_attr__ ( 'Header', 'alcor' ),
+			'description' => esc_attr__ ( 'Header Options', 'alcor' ),
+			'priority' => 40
+	) );
+	$wp_customize->add_section ( 'alcor_logo', array (
+			'title' => esc_attr__ ( 'Logo', 'alcor' ),
+			'panel' => 'alcor_header',
+			'capability' => 'edit_theme_options'
+	) );
+	$wp_customize->add_setting ( 'alcor[alcor_logo]', array (
+			'default' => '',
+			'type' => 'option',
+			'capability' => 'edit_theme_options'
+	) );
+	
+	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'alcor_logo_image', array(
+			'label'    => __('Logo image', 'themename'),
+			'section'  => 'alcor_logo',
+			'settings' => 'alcor[alcor_logo]',
+	)));
 }
 add_action ( 'customize_register', 'alcor_customize_register' );
 

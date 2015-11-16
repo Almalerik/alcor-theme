@@ -1,5 +1,5 @@
 <?php
-class alcor_custom_menu {
+class Alcor_Custom_Menu {
 	
 	/*
 	 * --------------------------------------------*
@@ -78,19 +78,13 @@ class alcor_custom_menu {
 	 *
 	 */
 	function alcor_edit_walker($walker, $menu_id) {
-		return 'Walker_Nav_Menu_Edit_Custom';
+		return 'Walker_Nav_Menu_Edit_Alcor';
 	}
 }
 
 // instantiate plugin's class
-$GLOBALS ['alcor_custom_menu'] = new alcor_custom_menu ();
+$GLOBALS ['Alcor_Custom_Menu'] = new Alcor_Custom_Menu ();
 
 include_once ('custom-nav-menu.php');
 include_once ('custom-nav-walker.php');
-
-add_filter( 'wp_edit_nav_menu_walker', 'custom_nav_edit_walker',10,2 );
-function custom_nav_edit_walker($walker,$menu_id) {
-	return 'Walker_Nav_Menu_Edit_Custom';
-}
-
 

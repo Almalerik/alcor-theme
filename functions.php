@@ -116,9 +116,10 @@ add_action( 'widgets_init', 'alcor_widgets_init' );
 function alcor_scripts() {
 	
 	wp_enqueue_style( 'alcor-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
-	wp_enqueue_style( 'alcor-bootstrap-style', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' );
+	wp_enqueue_style( 'alcor-bootstrap-style', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css', array('alcor-style') );
 	
 	wp_enqueue_style( 'alcor-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'alcor-style-css', get_template_directory_uri() . '/assets/css/alcor.css', array('alcor-bootstrap-style') );
 
 	wp_enqueue_script( 'alcor-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 

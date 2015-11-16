@@ -1,0 +1,33 @@
+
+/********   HEADER_TOP   **********/
+#header-top {
+	min-height: 30px;
+	background-color: #000;
+}
+/******** END HEADER_TOP **********/
+.navbar-brand {
+	padding: 0 10px;
+}
+
+.alcor-logo {
+	max-height: 70px;
+}
+
+/******** MENU **********/
+.alcor-menu li {
+	border-right: 1px solid #ededed;
+	min-height: 71px;
+}
+
+.alcor-menu:first-child { 
+    border-left: 1px solid #ededed;
+}
+
+.alcor-menu a{
+	text-align: center;
+}
+
+.alcor-menu a i{
+	display: block;
+    font-size: 1.5em;
+}

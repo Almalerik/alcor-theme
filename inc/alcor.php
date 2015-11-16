@@ -17,7 +17,7 @@ class Alcor_Theme {
 			"wrapper" => "container-fluid",
 			"wrapper_max_width" => "1092px",
 			"layout" => "full",
-			"sidebar_width" => "3"
+			"sidebar_width" => "3" 
 	);
 	
 	/**
@@ -35,20 +35,23 @@ class Alcor_Theme {
 	 *
 	 * @param String $key        	
 	 */
-	function get_setting($key) {
+	function get_setting($key, $get_default = TRUE) {
 		if (isset ( $this->wp_option [$key] )) {
 			return $this->wp_option [$key];
 		} else {
-			return $this->default_settings [$key];
+			if ($get_default) {
+				return $this->default_settings [$key];
+			}
 		}
+		return "";
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function has_sidebar() {
-		if ($this->get_setting("layout") != 'full') {
+		if ($this->get_setting ( "layout" ) != 'full') {
 			return true;
 		}
 		return false;
@@ -59,17 +62,22 @@ class Alcor_Theme {
 	 * @return array
 	 */
 	public function get_col_class() {
-		$result = array(
+		$result = array (
 				"content" => "col-md-12",
-				"sidebar" => ""
+				"sidebar" => "" 
 		);
-		if ($this->get_setting("layout") != 'full') {
-			if (is_numeric($this->get_setting("sidebar_width"))) {
-				$sidebar_width = intval($this->get_setting("sidebar_width"));
-				$result["content"] = "col-sm-" . (12 - $sidebar_width);
-				$result["sidebar"] = "col-sm-" . $sidebar_width;
+		if ($this->get_setting ( "layout" ) != 'full') {
+			if (is_numeric ( $this->get_setting ( "sidebar_width" ) )) {
+				$sidebar_width = intval ( $this->get_setting ( "sidebar_width" ) );
+				$result ["content"] = "col-sm-" . (12 - $sidebar_width);
+				$result ["sidebar"] = "col-sm-" . $sidebar_width;
 			}
 		}
 		return $result;
+	}
+	public function get_custom_style() {
+		$result = "";
+		if ($this->get_setting ( "wrapper_max_width", FALSE ) != "")
+			$result .= ".alcor-wrapper {max-width: " . $this->get_setting ( "wrapper_max_width", FALSE ) . "};\n";
 	}
 }

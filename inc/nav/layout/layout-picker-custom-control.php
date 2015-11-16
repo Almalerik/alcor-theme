@@ -10,8 +10,8 @@ class Layout_Picker_Custom_Control extends WP_Customize_Control {
 	 * Render the content on the theme customizer page
 	 */
 	public function render_content() {
-		$imageDirectory = '/wordpress-theme-customizer-custom-controls/layout/img/';
-		$imageDirectoryInc = '/inc/wordpress-theme-customizer-custom-controls/layout/img/';
+		$imageDirectory = '/layout/img/';
+		$imageDirectoryInc = '/inc/layout/img/';
 		
 		$finalImageDirectory = '';
 		

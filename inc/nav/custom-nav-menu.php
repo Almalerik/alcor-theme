@@ -7,7 +7,7 @@
  * @since 3.0.0
  * @uses Walker_Nav_Menu
  */
-class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu {
+class Walker_Nav_Menu_Edit_Alcor extends Walker_Nav_Menu {
 	/**
 	 * Starts the list before the elements are added.
 	 *
