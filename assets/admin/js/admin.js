@@ -9,6 +9,8 @@ jQuery.fn.whao_select2 = function() {
 
 jQuery(document).ready(function($) {
 	
+	
+	
 	/* MENU */
 	
 	//Init select2 select already defined

@@ -121,6 +121,7 @@ function alcor_customize_register($wp_customize) {
 			'section'  => 'alcor_logo',
 			'settings' => 'alcor[alcor_logo]',
 	)));
+
 }
 add_action ( 'customize_register', 'alcor_customize_register' );
 
@@ -128,11 +129,19 @@ add_action ( 'customize_register', 'alcor_customize_register' );
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
 function alcor_customize_preview_js() {
-	wp_enqueue_script ( 'alcor_customizer', get_template_directory_uri () . '/js/customizer.js', array (
+	wp_enqueue_script ( 'alcor_customizer', get_template_directory_uri () . '/assets/js/customizer.js', array (
 			'customize-preview' 
 	), '20130508', true );
 }
 add_action ( 'customize_preview_init', 'alcor_customize_preview_js' );
+
+/**
+ * Binds JS handlers to init Theme Customizer object.
+ */
+function alcor_customize_init_script() {
+	wp_enqueue_script( 'alcor_customizer_script', get_template_directory_uri() . '/assets/js/alcor-customizer.js', array("jquery"), '20130508', true  );
+}
+add_action( 'customize_controls_enqueue_scripts', 'alcor_customize_init_script' );
 
 if (class_exists ( 'WP_Customize_Control' )) :
 	class WP_Customize_Textarea_Control extends WP_Customize_Control {

@@ -11,7 +11,7 @@ class Layout_Picker_Custom_Control extends WP_Customize_Control {
 	 */
 	public function render_content() {
 		$imageDirectory = '/layout/img/';
-		$imageDirectoryInc = '/inc/layout/img/';
+		$imageDirectoryInc = '/inc/nav/layout/img/';
 		
 		$finalImageDirectory = '';
 		
