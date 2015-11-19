@@ -17,7 +17,8 @@ class Alcor_Theme {
 			"wrapper" => "container-fluid",
 			"wrapper_max_width" => "1092px",
 			"layout" => "full",
-			"sidebar_width" => "3" 
+			"sidebar_width" => "3", 
+			"show_title" => "hidden",
 	);
 	
 	/**

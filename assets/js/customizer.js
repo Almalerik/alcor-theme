@@ -38,5 +38,11 @@
 			}
 		});
 	});
+	wp.customize('alcor[show_title]', function(value) {
+		console.log("asd");
+		value.bind(function(to) {
+			('hidden' === to) ? $('.site-title').addClass(to) : $('.site-title').removeClass('hidden');			
+		});
+	});
 
 })(jQuery);

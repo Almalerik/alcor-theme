@@ -78,9 +78,11 @@ $alcor = new Alcor_Theme();
 						echo '</a>';
 
 					endif;
+					
+					$show_title = $alcor->get_setting('show_title');
 
 				?>
-
+				<h1 class="site-title <?php echo $show_title;?>"><?php echo get_bloginfo( "name" )?></h1>
 
 
           </div>

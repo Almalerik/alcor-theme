@@ -120,7 +120,27 @@ function alcor_customize_register($wp_customize) {
 			'label'    => __('Logo image', 'themename'),
 			'section'  => 'alcor_logo',
 			'settings' => 'alcor[alcor_logo]',
+			'priority' => 100
 	)));
+	
+	$wp_customize->add_setting ( 'alcor[show_title]', array (
+			'default' => $alcor -> get_setting ('show_title'),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( 'show_title', array (
+			'label' => esc_attr__ ( 'Show site title', 'alcor' ),
+			'section' => 'alcor_logo',
+			'settings' => 'alcor[show_title]',
+			'type' => 'radio',
+			'choices' => array (
+					"hidden" => esc_attr__ ( 'No' ),
+					"" => esc_attr__ ( 'Yes' ),
+			),
+			'priority' => 200
+	) );
+	
 
 }
 add_action ( 'customize_register', 'alcor_customize_register' );
