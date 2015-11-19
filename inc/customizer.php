@@ -22,7 +22,7 @@ function alcor_customize_register($wp_customize) {
 	
 	// ===== Site Identity =====
 	$wp_customize->add_setting ( 'alcor[logo]', array (
-			'default' => '',
+			'default' => $alcor -> get_setting("logo"),
 			'type' => 'option',
 			'capability' => 'edit_theme_options' 
 	) );
@@ -39,17 +39,34 @@ function alcor_customize_register($wp_customize) {
 			'capability' => 'edit_theme_options',
 			'priority' => 30 
 	) );
+	// Header fixed top
+	$wp_customize->add_setting ( 'alcor[header_fixed_top]', array (
+			'default' => $alcor->get_setting ( 'header_fixed_top' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( 'alcor_header_fixed_top', array (
+			'label' => esc_attr__ ( 'Header fixed top', 'alcor' ),
+			'section' => 'alcor_header',
+			'settings' => 'alcor[header_fixed_top]',
+			'type' => 'checkbox',
+			'priority' => 100
+	) );
 	// Header background color
 	$wp_customize->add_setting ( 'alcor[header_background_color]', array (
 			'default' => $alcor->get_setting ( 'header_background_color' ),
 			'type' => 'option',
-			'capability' => 'edit_theme_options'
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
 	) );
 	$wp_customize->add_control ( new WP_Customize_Color_Control ( $wp_customize, 'alcor_header_background_color', array (
 			'label' => __ ( 'Header background color', 'alcor' ),
 			'section' => 'alcor_header',
-			'settings' => 'alcor[header_background_color]' 
+			'settings' => 'alcor[header_background_color]',
+			'priority' => 200
 	) ) );
+
 	
 	// ===== Alcor Options =====
 	$wp_customize->add_panel ( 'alcor_options', array (

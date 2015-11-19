@@ -1,11 +1,28 @@
 /********   HEADER_TOP   **********/
 #header-top {
-	min-height: 30px;
 	background-color: #000;
+	display: none;
 }
 /******** END HEADER_TOP **********/
 
 /********   HEADER_MENU   **********/
+body.admin-bar .navbar-fixed-top {
+	top: 32px;
+}
+
+.navbar-default {
+	border: 0;
+	-webkit-box-shadow:0px 1px 5px #e7e7e7;
+ 	-moz-box-shadow:0px 1px 5px #e7e7e7;
+ 	box-shadow:0px 1px 5px #e7e7e7;
+ 	margin-bottom: 0;
+ 	z-index: 9999;
+}
+
+.navbar-fade:before {
+	opacity: 0.33;
+}
+
 .brand-container {
 	display: block;
 	vertical-align: middle;

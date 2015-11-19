@@ -41,7 +41,7 @@ $alcor = new Alcor_Theme();
 
 		<div id="header" class="row">
 			<div class="alcor-wrapper">
-				<nav class="navbar navbar-default">
+				<nav class="navbar navbar-default <?php echo $alcor -> get_setting("header_fixed_top") ? 'navbar-fixed-top' : '';?>  navbar-fade">
 					<div class="container-fluid">
 	        			<div class="navbar-header">
 					
@@ -80,12 +80,9 @@ $alcor = new Alcor_Theme();
 						</div>
 						<?php endif; ?>
         			</div>
-
-				
       			</nav>
 			</div>
 		</div>
-
 	</div>
 <?php dynamic_sidebar ('sidebar-header');?>
 	<div id="page" class="site">

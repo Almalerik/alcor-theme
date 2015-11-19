@@ -17,10 +17,12 @@ class Alcor_Theme {
 			"wrapper" => "container-fluid",
 			"wrapper_max_width" => "1092px",
 			"layout" => "full",
-			"sidebar_width" => "3", 
+			"sidebar_width" => "3",
+			"logo" => "",
 			"show_title" => true,
 			"show_description" => true,
-			"header_background_color" => "",
+			"header_fixed_top" => "",
+			"header_background_color" => "" 
 	);
 	
 	/**
@@ -35,16 +37,12 @@ class Alcor_Theme {
 		$this->wp_option = get_option ( self::SLUG );
 	}
 	/**
+	 * If exist wp_option[key] return this otherwise return the default value
 	 *
 	 * @param String $key        	
 	 */
-	function get_setting($key, $get_default = TRUE) {
-		
-		if ( $get_default ) {
-			return get_theme_mod($key, $this->wp_option [$key]) ;
-		} 
-		return get_theme_mod($key);
-
+	function get_setting($key) {
+		return isset ( $this->wp_option [$key] ) ? $this->wp_option [$key] : $this->defaults [$key];
 	}
 	
 	/**
@@ -78,38 +76,46 @@ class Alcor_Theme {
 	}
 	
 	/**
-	 * 
 	 */
 	public function get_custom_style() {
 		$result = "";
-		if ($this->get_setting ( "wrapper_max_width", FALSE ) != "")
+		if ($this->get_setting ( "wrapper_max_width" ) != "")
 			$result .= ".alcor-wrapper {max-width: " . $this->get_setting ( "wrapper_max_width", FALSE ) . "};\n";
 	}
 	
 	/**
-	 * This will generate a line of CSS for use in header output. If the setting
+	 * This will generate a line of CSS for use in header output.
+	 * If the setting
 	 * ($mod_name) has no defined value, the CSS will not be output.
 	 *
 	 * @uses get_theme_mod()
-	 * @param string $selector CSS selector
-	 * @param string $style The name of the CSS *property* to modify
-	 * @param string $mod_name The name of the 'theme_mod' option to fetch
-	 * @param string $prefix Optional. Anything that needs to be output before the CSS property
-	 * @param string $postfix Optional. Anything that needs to be output after the CSS property
-	 * @param bool $echo Optional. Whether to print directly to the page (default: true).
+	 * @param string $selector
+	 *        	CSS selector
+	 * @param string $style
+	 *        	The name of the CSS *property* to modify
+	 * @param string $mod_name
+	 *        	The name of the 'theme_mod' option to fetch
+	 * @param string $prefix
+	 *        	Optional. Anything that needs to be output before the CSS property
+	 * @param string $postfix
+	 *        	Optional. Anything that needs to be output after the CSS property
+	 * @param bool $echo
+	 *        	Optional. Whether to print directly to the page (default: true).
 	 * @return string Returns a single line of CSS with selectors and a property.
 	 * @since MyTheme 1.0
 	 */
-	public static function generate_css( $selector, $style, $mod_name, $prefix='', $postfix='', $echo=true ) {
+	public static function generate_css($selector, $style, $mod_name, $prefix = '', $postfix = '', $echo = true) {
 		$return = '';
-		$mod = get_theme_mod($mod_name);
-		if ( ! empty( $mod ) ) {
-			$return = sprintf('%s { %s:%s; }',
-					$selector,
-					$style,
-					$prefix.$mod.$postfix
-					);
-			if ( $echo ) {
+		$mods = get_option ( 'alcor' );
+		$mod = $mods [$mod_name];
+		if (! empty ( $mod )) {
+			$return = sprintf ( '%s { %s:%s; }', $selector, $style, $prefix . $mod . $postfix );
+			if ($echo) {
+				echo $return;
+			}
+		} else {
+			$return = sprintf ( '%s { %s:%s; }', $selector, $style, 'transparent' );
+			if ($echo) {
 				echo $return;
 			}
 		}
@@ -125,11 +131,19 @@ class Alcor_Theme {
 	 * @since MyTheme 1.0
 	 */
 	public static function header_output() {
+		$mods = get_option ( 'alcor' );
+		$mod = $mods [$mod_name];
+		$background_color =$mods ['header_background_color'];
+		$header_fix = $mods ['header_fixed_top'];
+		if ($header_fix && isset($background_color)) {
+			$background_color = $this -> hex2rgb($background_color);
+			array_push($background_color, "0.4");
+		}
 		?>
 	      <!--Customizer CSS--> 
-	      <style type="text/css">
+	      <style type="text/css" id="alcor-style">
 	      		
-	           <?php self::generate_css('.navbar-default', 'background-color', 'header_background_color', '#'); ?> 
+	           <?php self::generate_css('.navbar-defaultz', implode(",", $background_color), 'header_background_color'); ?> 
 	          
 	      </style> 
 	      <!--/Customizer CSS-->
@@ -140,7 +154,7 @@ class Alcor_Theme {
 	 * This will output the logo url.
 	 */
 	public function get_logo() {
-		$alcor_logo = $this->get_setting ( 'alcor_logo' );
+		$alcor_logo = $this->get_setting ( 'logo' );
 		
 		if (isset ( $alcor_logo ) && $alcor_logo != "" ) {
 			return $alcor_logo;
@@ -151,6 +165,32 @@ class Alcor_Theme {
 				return get_template_directory_uri () . "/assets/images/logo.png";
 			}
 		}
+	}
+	
+	/**
+	 * Returns the rgb values separated by commas
+	 * 
+	 * @param String $hex        	
+	 */
+	function hex2rgb($hex) {
+		$hex = str_replace ( "#", "", $hex );
+		
+		if (strlen ( $hex ) == 3) {
+			$r = hexdec ( substr ( $hex, 0, 1 ) . substr ( $hex, 0, 1 ) );
+			$g = hexdec ( substr ( $hex, 1, 1 ) . substr ( $hex, 1, 1 ) );
+			$b = hexdec ( substr ( $hex, 2, 1 ) . substr ( $hex, 2, 1 ) );
+		} else {
+			$r = hexdec ( substr ( $hex, 0, 2 ) );
+			$g = hexdec ( substr ( $hex, 2, 2 ) );
+			$b = hexdec ( substr ( $hex, 4, 2 ) );
+		}
+		$rgb = array (
+				$r,
+				$g,
+				$b 
+		);
+		// return implode(",", $rgb);
+		return $rgb; // returns an array with the rgb values
 	}
 }
 
