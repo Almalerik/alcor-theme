@@ -18,7 +18,38 @@ function alcor_customize_register($wp_customize) {
 	$wp_customize->get_setting ( 'blogdescription' )->transport = 'postMessage';
 	$wp_customize->get_setting ( 'header_textcolor' )->transport = 'postMessage';
 	
-	$alcor = new Alcor_Theme();
+	$alcor = new Alcor_Theme ();
+	
+	// ===== Site Identity =====
+	$wp_customize->add_setting ( 'alcor[logo]', array (
+			'default' => '',
+			'type' => 'option',
+			'capability' => 'edit_theme_options' 
+	) );
+	$wp_customize->add_control ( new WP_Customize_Image_Control ( $wp_customize, 'alcor_logo', array (
+			'label' => __ ( 'Site logo', 'themename' ),
+			'section' => 'title_tagline',
+			'settings' => 'alcor[logo]',
+			'priority' => 100 
+	) ) );
+	
+	// ===== Alcor Header =====
+	$wp_customize->add_section ( 'alcor_header', array (
+			'title' => esc_attr__ ( 'Header', 'alcor' ),
+			'capability' => 'edit_theme_options',
+			'priority' => 30 
+	) );
+	// Header background color
+	$wp_customize->add_setting ( 'alcor[header_background_color]', array (
+			'default' => $alcor->get_setting ( 'header_background_color' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options'
+	) );
+	$wp_customize->add_control ( new WP_Customize_Color_Control ( $wp_customize, 'alcor_header_background_color', array (
+			'label' => __ ( 'Header background color', 'alcor' ),
+			'section' => 'alcor_header',
+			'settings' => 'alcor[header_background_color]' 
+	) ) );
 	
 	// ===== Alcor Options =====
 	$wp_customize->add_panel ( 'alcor_options', array (
@@ -32,7 +63,7 @@ function alcor_customize_register($wp_customize) {
 			'capability' => 'edit_theme_options' 
 	) );
 	$wp_customize->add_setting ( 'alcor[wrapper]', array (
-			'default' => $alcor -> get_setting ('wrapper'),
+			'default' => $alcor->get_setting ( 'wrapper' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options' 
 	) );
@@ -50,7 +81,7 @@ function alcor_customize_register($wp_customize) {
 			'priority' => 100 
 	) );
 	$wp_customize->add_setting ( 'alcor[alcor_wrapper_max_width]', array (
-			'default' => $alcor -> get_setting ('wrapper_max_width'),
+			'default' => $alcor->get_setting ( 'wrapper_max_width' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options' 
 	) );
@@ -63,23 +94,23 @@ function alcor_customize_register($wp_customize) {
 	) );
 	
 	$wp_customize->add_setting ( 'alcor[layout]', array (
-			'default' => $alcor -> get_setting ('layout'),
+			'default' => $alcor->get_setting ( 'layout' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options' 
 	) );
-
+	
 	// Add control and output for select field
 	$wp_customize->add_control ( new Layout_Picker_Custom_Control ( $wp_customize, 'alcor_layout', array (
 			'label' => __ ( 'Sidebar Position', 'alcor' ),
 			'section' => 'alcor_general',
 			'settings' => 'alcor[layout]',
-			'priority' => 300
+			'priority' => 300 
 	) ) );
 	
 	$wp_customize->add_setting ( 'alcor[sidebar_width]', array (
-			'default' => $alcor -> get_setting ('sidebar_width'),
+			'default' => $alcor->get_setting ( 'sidebar_width' ),
 			'type' => 'option',
-			'capability' => 'edit_theme_options'
+			'capability' => 'edit_theme_options' 
 	) );
 	
 	// Add control and output for select field
@@ -94,54 +125,10 @@ function alcor_customize_register($wp_customize) {
 					'3' => esc_attr__ ( '3/12', 'alcor' ),
 					'4' => esc_attr__ ( '4/12', 'alcor' ),
 					'5' => esc_attr__ ( '5/12', 'alcor' ),
-					'6' => esc_attr__ ( '6/12', 'alcor' )
+					'6' => esc_attr__ ( '6/12', 'alcor' ) 
 			),
-			'priority' => 400
+			'priority' => 400 
 	) );
-	
-	// ===== Alcor Header =====
-	$wp_customize->add_panel ( 'alcor_header', array (
-			'title' => esc_attr__ ( 'Header', 'alcor' ),
-			'description' => esc_attr__ ( 'Header Options', 'alcor' ),
-			'priority' => 40
-	) );
-	$wp_customize->add_section ( 'alcor_logo', array (
-			'title' => esc_attr__ ( 'Logo', 'alcor' ),
-			'panel' => 'alcor_header',
-			'capability' => 'edit_theme_options'
-	) );
-	$wp_customize->add_setting ( 'alcor[alcor_logo]', array (
-			'default' => '',
-			'type' => 'option',
-			'capability' => 'edit_theme_options'
-	) );
-	
-	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'alcor_logo_image', array(
-			'label'    => __('Logo image', 'themename'),
-			'section'  => 'alcor_logo',
-			'settings' => 'alcor[alcor_logo]',
-			'priority' => 100
-	)));
-	
-	$wp_customize->add_setting ( 'alcor[show_title]', array (
-			'default' => $alcor -> get_setting ('show_title'),
-			'type' => 'option',
-			'capability' => 'edit_theme_options',
-			'transport' => 'postMessage'
-	) );
-	$wp_customize->add_control ( 'show_title', array (
-			'label' => esc_attr__ ( 'Show site title', 'alcor' ),
-			'section' => 'alcor_logo',
-			'settings' => 'alcor[show_title]',
-			'type' => 'radio',
-			'choices' => array (
-					"hidden" => esc_attr__ ( 'No' ),
-					"" => esc_attr__ ( 'Yes' ),
-			),
-			'priority' => 200
-	) );
-	
-
 }
 add_action ( 'customize_register', 'alcor_customize_register' );
 
@@ -159,21 +146,25 @@ add_action ( 'customize_preview_init', 'alcor_customize_preview_js' );
  * Binds JS handlers to init Theme Customizer object.
  */
 function alcor_customize_init_script() {
-	wp_enqueue_script( 'alcor_customizer_script', get_template_directory_uri() . '/assets/js/alcor-customizer.js', array("jquery"), '20130508', true  );
+	wp_enqueue_script ( 'alcor_customizer_script', get_template_directory_uri () . '/assets/js/alcor-customizer.js', array (
+			"jquery" 
+	), '20130508', true );
 }
-add_action( 'customize_controls_enqueue_scripts', 'alcor_customize_init_script' );
+add_action ( 'customize_controls_enqueue_scripts', 'alcor_customize_init_script' );
 
 if (class_exists ( 'WP_Customize_Control' )) :
 	class WP_Customize_Textarea_Control extends WP_Customize_Control {
 		public $type = 'textarea';
 		public function render_content() {
 			?>
-<label> <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+<label>
+	<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 	<textarea rows="5" style="width: 100%;" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
 </label>
 <?php
 		}
 	}
+
 
 
 

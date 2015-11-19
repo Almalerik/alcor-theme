@@ -13,12 +13,14 @@ class Alcor_Theme {
 	 * @access private
 	 * @var array
 	 */
-	private $default_settings = array (
+	public $defaults = array (
 			"wrapper" => "container-fluid",
 			"wrapper_max_width" => "1092px",
 			"layout" => "full",
 			"sidebar_width" => "3", 
-			"show_title" => "hidden",
+			"show_title" => true,
+			"show_description" => true,
+			"header_background_color" => "",
 	);
 	
 	/**
@@ -37,14 +39,12 @@ class Alcor_Theme {
 	 * @param String $key        	
 	 */
 	function get_setting($key, $get_default = TRUE) {
-		if (isset ( $this->wp_option [$key] )) {
-			return $this->wp_option [$key];
-		} else {
-			if ($get_default) {
-				return $this->default_settings [$key];
-			}
-		}
-		return "";
+		
+		if ( $get_default ) {
+			return get_theme_mod($key, $this->wp_option [$key]) ;
+		} 
+		return get_theme_mod($key);
+
 	}
 	
 	/**
@@ -76,6 +76,10 @@ class Alcor_Theme {
 		}
 		return $result;
 	}
+	
+	/**
+	 * 
+	 */
 	public function get_custom_style() {
 		$result = "";
 		if ($this->get_setting ( "wrapper_max_width", FALSE ) != "")
@@ -124,11 +128,31 @@ class Alcor_Theme {
 		?>
 	      <!--Customizer CSS--> 
 	      <style type="text/css">
-	           <?php self::generate_css('#site-title a', 'color', 'header_textcolor', '#'); ?> 
-	           <?php self::generate_css('body', 'background-color', 'background_color', '#'); ?> 
-	           <?php self::generate_css('a', 'color', 'link_textcolor'); ?>
+	      		
+	           <?php self::generate_css('.navbar-default', 'background-color', 'header_background_color', '#'); ?> 
+	          
 	      </style> 
 	      <!--/Customizer CSS-->
 	      <?php
-	   }
+	}
+	
+	/**
+	 * This will output the logo url.
+	 */
+	public function get_logo() {
+		$alcor_logo = $this->get_setting ( 'alcor_logo' );
+		
+		if (isset ( $alcor_logo ) && $alcor_logo != "" ) {
+			return $alcor_logo;
+		} else {
+			if (file_exists ( get_stylesheet_directory () . "/assets/images/logo.png" )) {
+				return get_stylesheet_directory_uri () . "/assets/images/logo.png";
+			} else {
+				return get_template_directory_uri () . "/assets/images/logo.png";
+			}
+		}
+	}
 }
+
+// Output custom CSS to live site
+add_action( 'wp_head' , array( 'Alcor_Theme' , 'header_output' ) );

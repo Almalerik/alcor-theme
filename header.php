@@ -30,6 +30,8 @@ $alcor = new Alcor_Theme();
 
 <body <?php body_class(); ?>>
 	<div class="container-fluid">
+	
+		<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'alcor' ); ?></a>
 
 		<div id="header-top" class="row">
 			<div class="alcor-wrapper">
@@ -38,96 +40,67 @@ $alcor = new Alcor_Theme();
 		</div>
 
 		<div id="header" class="row">
-				<div class="alcor-wrapper">
+			<div class="alcor-wrapper">
 				<nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-				<?php
-
-					$alcor_logo = $alcor->get_setting('alcor_logo');
-
-					if(isset($alcor_logo) && $alcor_logo != ""):
-
-						echo '<a href="'.esc_url( home_url( '/' ) ).'" class="navbar-brand">';
-
-							echo '<img src="'.$alcor_logo.'" alt="'.get_bloginfo('title').'" class="alcor-logo image-responsive">';
-
-						echo '</a>';
-
-					else:
-
-						echo '<a href="'.esc_url( home_url( '/' ) ).'" class="navbar-brand">';
-						
-							if( file_exists(get_stylesheet_directory()."/assets/images/logo.png")):
-							
-								echo '<img src="'.get_stylesheet_directory_uri().'/assets/images/logo.png" alt="'.get_bloginfo('title').'"  class="alcor-logo image-responsive">';
-							
-							else:
-								
-								echo '<img src="'.get_template_directory_uri().'/assets/images/logo.png" alt="'.get_bloginfo('title').'"  class="alcor-logo image-responsive">';
-								
-							endif;
-
-						echo '</a>';
-
-					endif;
+					<div class="container-fluid">
+	        			<div class="navbar-header">
 					
-					$show_title = $alcor->get_setting('show_title');
+							<?php if ( has_nav_menu( "primary" ) ) :?>
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<?php endif;?>
+	            			
+	            			<div class="brand-container">
+	            				<a href="<?php echo esc_url( home_url( '/' ) )?>" class="navbar-brand"  rel="home">
+	            					<img src="<?php echo $alcor->get_logo()?>" alt="<?php echo get_bloginfo('title')?>" class="site-logo image-responsive">
+								</a>
+								<div class="navbar-brand-name">
+								<?php if ( is_front_page() && is_home() ) : ?>
+									<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+								<?php else : ?>
+									<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+								<?php endif;?>
 
-				?>
-				<h1 class="site-title <?php echo $show_title;?>"><?php echo get_bloginfo( "name" )?></h1>
+								<?php $description = get_bloginfo( 'description', 'display' );
+									  if ( $description || is_customize_preview() ) : ?>
+									<p class="site-description"><?php echo $description; ?></p>
+								<?php endif;?>
+									
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						<?php if ( has_nav_menu( "primary" ) ) :?>
+						<div id="navbar" class="navbar-collapse collapse">
+				            <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu', 'walker' => new Alcor_Walker(), 'menu_class' => 'nav navbar-nav navbar-right alcor-menu'  ) ); ?>
+						</div>
+						<?php endif; ?>
+        			</div>
 
-
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu', 'walker' => new Alcor_Walker(), 'menu_class' => 'nav navbar-nav navbar-right alcor-menu'  ) ); ?>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-      </nav>
-				</div>
+				
+      			</nav>
 			</div>
+		</div>
 
 	</div>
 <?php dynamic_sidebar ('sidebar-header');?>
 	<div id="page" class="site">
-		<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'alcor' ); ?></a>
+		
 
 		<header id="masthead" class="site-header" role="banner">
 			<div class="site-branding">
-			<?php if ( is_front_page() && is_home() ) : ?>
-				<h1 class="site-title">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-				</h1>
-			<?php else : ?>
-				<p class="site-title">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
-				</p>
 			
-			
-			<?phpendif;
-			
-			$description = get_bloginfo ( 'description', 'display' );
-			if ($description || is_customize_preview ()) :
-				?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php endif; ?>
+
 		</div>
 			<!-- .site-branding -->
 
-			<nav id="site-navigation" class="main-navigation" role="navigation">
-				<button class="menu-toggle" aria-controls="primary-menu"
-					aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'alcor' ); ?></button>
-			
-		</nav>
-			<!-- #site-navigation -->
+
 		</header>
 		<!-- #masthead -->
 
 		<div id="content" class="site-content">
+		

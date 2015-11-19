@@ -1,17 +1,39 @@
-
 /********   HEADER_TOP   **********/
 #header-top {
 	min-height: 30px;
 	background-color: #000;
 }
 /******** END HEADER_TOP **********/
-.navbar-brand {
-	padding: 0 10px;
+
+/********   HEADER_MENU   **********/
+.brand-container {
+	display: block;
+	vertical-align: middle;
 }
 
-.alcor-logo {
-	max-height: 70px;
+.navbar-brand {
+	height: auto;
+	padding: 0 10px;
+	display: table-cell;
+	vertical-align: middle;
+	float: none;
 }
+
+.navbar-brand>img.site-logo {
+	max-height: 70px;
+	/*display: inline-block;*/
+}
+
+.navbar-brand-name {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.navbar-brand-name h1 {
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+/********  END HEADER_MENU  **********/
 
 /******** MENU **********/
 .alcor-menu li {
@@ -19,15 +41,15 @@
 	min-height: 71px;
 }
 
-.alcor-menu:first-child { 
-    border-left: 1px solid #ededed;
+.alcor-menu:first-child {
+	border-left: 1px solid #ededed;
 }
 
-.alcor-menu a{
+.alcor-menu a {
 	text-align: center;
 }
 
-.alcor-menu a i{
+.alcor-menu a i {
 	display: block;
-    font-size: 1.5em;
+	font-size: 1.5em;
 }
