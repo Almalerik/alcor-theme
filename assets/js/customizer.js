@@ -69,5 +69,31 @@
 			}
 		});
 	});
+	
+	// Header image show.
+	wp.customize('alcor[header_image_show]', function(value) {
+		value.bind(function(to) {
+		    $('#site-header-background').toggleClass('hidden');
+		});
+	});
+	
+	// Container wrapper
+	wp.customize('alcor[container_class]', function(value) {
+		value.bind(function(to) {
+		    $('.alcor-container').removeClass('container-fluid container').addClass(to).removeAttr('style');
+		    if ( 'container' === to ) {
+			var width = wp.customize.value('alcor[container_class_fixed_max_width]')();
+			$('.alcor-container').css('max-width', width);
+		    }
+		});
+	});
+	
+	//  Container wrapper max width
+	wp.customize('alcor[container_class_fixed_max_width]', function(value) {
+		value.bind(function(to) {
+		    $('.alcor-container.container').css('max-width', to);
+		});
+	});	
+
 
 })(jQuery);

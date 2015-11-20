@@ -29,18 +29,17 @@ $alcor = new Alcor_Theme();
 </head>
 
 <body <?php body_class(); ?>>
-	<div class="container-fluid">
+	<div class="alcor-container <?php echo $alcor -> get_setting('container_class');?>"> <!-- alcor-container -->
+		<div class="alcor-wrapper">
 	
 		<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'alcor' ); ?></a>
 
 		<div id="header-top" class="row">
-			<div class="alcor-wrapper">
 				<div class="col-xs-12"></div>
-			</div>
 		</div>
 
 		<div id="header" class="row">
-			<div class="alcor-wrapper">
+
 				<nav class="navbar navbar-default <?php echo $alcor -> get_setting("header_fixed_top") ? 'navbar-fixed-top' : '';?>  navbar-fade">
 					<div class="container-fluid">
 	        			<div class="navbar-header">
@@ -81,22 +80,24 @@ $alcor = new Alcor_Theme();
 						<?php endif; ?>
         			</div>
       			</nav>
-			</div>
 		</div>
 	</div>
-<?php dynamic_sidebar ('sidebar-header-widget');?>
-	<div id="page" class="site">
-		
-
-		<header id="masthead" class="site-header" role="banner">
+	
+	<?php dynamic_sidebar ('sidebar-header-widget');?>
+	
+	<div id="page" class="site row">
+	
+		<?php if ( is_customize_preview() ): ?>
+		<div id="site-header-background" class="parallax <?php echo $alcor -> get_setting("header_image_show") && ( ( is_home() && $alcor -> get_setting("header_image_show_only_homepage" ) ) || !$alcor -> get_setting("header_image_show_only_homepage" ) )  ? '' : 'hidden';?>">
 			<div class="site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
-			
-				</div>
-			<!-- .site-branding -->
-
-
-		</header>
-		<!-- #masthead -->
+			</div>
+		</div>
+		<?php elseif ($alcor -> get_setting("header_image_show") && ( ( is_home() && $alcor -> get_setting("header_image_show_only_homepage" ) ) || !$alcor -> get_setting("header_image_show_only_homepage" ) ) ):?>
+		<div id="site-header-background" class="parallax">
+			<div class="site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
+			</div>
+		</div>
+		<?php endif;?>
 
 		<div id="content" class="site-content">
 		

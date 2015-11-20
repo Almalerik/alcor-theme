@@ -10,19 +10,20 @@ class Alcor_Theme {
 	/**
 	 * All default settings.
 	 *
-	 * @access private
+	 * @access public
 	 * @var array
 	 */
 	public $defaults = array (
-			"wrapper" => "container-fluid",
-			"wrapper_max_width" => "1092px",
+			"container_class" => "container-fluid",
+			"container_class_fixed_max_width" => "1170px",
+			//TODO: DA VERIFICARE
 			"layout" => "full",
 			"sidebar_width" => "3",
 			"logo" => "",
-			"show_title" => true,
-			"show_description" => true,
 			"header_fixed_top" => "",
-			"header_background_color" => "" 
+			"header_background_color" => "",
+			"header_image_show" => true,
+			"header_image_show_only_homepage" => true 
 	);
 	
 	/**
@@ -36,6 +37,7 @@ class Alcor_Theme {
 	public function __construct() {
 		$this->wp_option = get_option ( self::SLUG );
 	}
+	
 	/**
 	 * If exist wp_option[key] return this otherwise return the default value
 	 *
@@ -80,7 +82,7 @@ class Alcor_Theme {
 	public function get_custom_style() {
 		$result = "";
 		if ($this->get_setting ( "wrapper_max_width" ) != "")
-			$result .= ".alcor-wrapper {max-width: " . $this->get_setting ( "wrapper_max_width", FALSE ) . "};\n";
+			$result .= ".alcor-wrapper {max-width: " . $this->get_setting ( "wrapper_max_width" ) . "};\n";
 	}
 	
 	/**
@@ -102,19 +104,14 @@ class Alcor_Theme {
 	 * @param bool $echo
 	 *        	Optional. Whether to print directly to the page (default: true).
 	 * @return string Returns a single line of CSS with selectors and a property.
-	 * @since MyTheme 1.0
+	 * @since Alcor 1.0
 	 */
 	public static function generate_css($selector, $style, $mod_name, $prefix = '', $postfix = '', $echo = true) {
 		$return = '';
 		$mods = get_option ( 'alcor' );
-		$mod = $mods [$mod_name];
+		$mod = isset ( $mods [$mod_name] ) ? $mods [$mod_name] : null;
 		if (! empty ( $mod )) {
 			$return = sprintf ( '%s { %s:%s; }', $selector, $style, $prefix . $mod . $postfix );
-			if ($echo) {
-				echo $return;
-			}
-		} else {
-			$return = sprintf ( '%s { %s:%s; }', $selector, $style, 'transparent' );
 			if ($echo) {
 				echo $return;
 			}
@@ -128,18 +125,21 @@ class Alcor_Theme {
 	 * Used by hook: 'wp_head'
 	 *
 	 * @see add_action('wp_head',$func)
-	 * @since MyTheme 1.0
+	 * @since Alcor 1.0
 	 */
 	public static function header_output() {
-		?>
-	      <!--Customizer CSS--> 
-	      <style type="text/css" id="alcor-style">
-	      		
-	           <?php self::generate_css('.navbar-defaultz', 'header_background_color', 'header_background_color'); ?> 
-	          
-	      </style> 
-	      <!--/Customizer CSS-->
-	      <?php
+		$result = "<!--Customizer CSS-->\n";
+		$result .= '<style type="text/css" id="alcor-style-inline">' . "\n";
+		
+		//Navbar background color
+		$result .= "\t" . self::generate_css ( '.navbar-default', 'background-color', 'header_background_color', '', '', false ) . "\n";
+		
+		//Fixed Container
+		$result .= "\t" . self::generate_css ( '.alcor-container.container', 'max-width', 'container_class_fixed_max_width', '', '', false ) . "\n";
+		
+		$result .= "</style>\n";
+		$result .= "<!--/Customizer CSS-->\n";
+		echo $result;
 	}
 	
 	/**
@@ -148,7 +148,37 @@ class Alcor_Theme {
 	public function get_logo() {
 		$alcor_logo = $this->get_setting ( 'logo' );
 		
-		if (isset ( $alcor_logo ) && $alcor_logo != "" ) {
+		if (isset ( $alcor_logo ) && $alcor_logo != "") {
+			return $alcor_logo;
+		} else {
+			if (file_exists ( get_stylesheet_directory () . "/assets/images/logo.png" )) {
+				return get_stylesheet_directory_uri () . "/assets/images/logo.png";
+			} else {
+				return get_template_directory_uri () . "/assets/images/logo.png";
+			}
+		}
+	}
+	
+	/**
+	 * This will return hidden header background image must be hidden checking if in homepage and if in customize
+	 *
+	 * @return string Returns hidden if header background image must be hidden.
+	 * @since Alcor 1.0
+	 */
+	public function get_header_background_image_class() {
+		$return = '';
+		if (is_customize_preview ()) {
+			if (! $alcor->get_setting ( "header_image_show" )) {
+				return 'hidden';
+			} else if ($alcor->get_setting ( "header_image_show_only_homepage" ) && is_home ()) {
+				return 'hidden';
+			}
+		} else {
+		}
+		
+		$alcor_logo = $this->get_setting ( 'logo' );
+		
+		if (isset ( $alcor_logo ) && $alcor_logo != "") {
 			return $alcor_logo;
 		} else {
 			if (file_exists ( get_stylesheet_directory () . "/assets/images/logo.png" )) {
@@ -161,4 +191,15 @@ class Alcor_Theme {
 }
 
 // Output custom CSS to live site
-add_action( 'wp_head' , array( 'Alcor_Theme' , 'header_output' ) );
+add_action ( 'wp_head', array (
+		'Alcor_Theme',
+		'header_output' 
+) );
+
+function sanitize_css_number( $value ) {
+	str_replace (",", ".", $value);
+	if ( is_numeric ($value) ) {
+		return  $value . "px";
+	}
+	return $value;
+}

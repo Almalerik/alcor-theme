@@ -1,56 +1,53 @@
 <?php
 /**
  * Custom Walker
-*
-* @access      public
-* @since       1.0
-* @return      void
-*/
-class Alcor_Walker extends Walker_Nav_Menu
-{
-	function start_el(&$output, $item, $depth, $args)
-	{
+ *
+ * @access      public
+ * @since       1.0
+ * @return      void
+ */
+class Alcor_Walker extends Walker_Nav_Menu {
+	function start_el(&$output, $object, $depth = 0, $args = Array (), $current_object_id = 0) {
 		global $wp_query;
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-
+		$indent = ($depth) ? str_repeat ( "\t", $depth ) : '';
+		
 		$class_names = $value = '';
-
-		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
-
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
-		$class_names = ' class="'. esc_attr( $class_names ) . '"';
-
-		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
-
-		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-		$attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-		$attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
-
+		
+		$classes = empty ( $object->classes ) ? array () : ( array ) $object->classes;
+		
+		$class_names = join ( ' ', apply_filters ( 'nav_menu_css_class', array_filter ( $classes ), $object ) );
+		$class_names = ' class="' . esc_attr ( $class_names ) . '"';
+		
+		$output .= $indent . '<li id="menu-item-' . $object->ID . '"' . $value . $class_names . '>';
+		
+		$attributes = ! empty ( $object->attr_title ) ? ' title="' . esc_attr ( $object->attr_title ) . '"' : '';
+		$attributes .= ! empty ( $object->target ) ? ' target="' . esc_attr ( $object->target ) . '"' : '';
+		$attributes .= ! empty ( $object->xfn ) ? ' rel="' . esc_attr ( $object->xfn ) . '"' : '';
+		$attributes .= ! empty ( $object->url ) ? ' href="' . esc_attr ( $object->url ) . '"' : '';
+		
 		$prepend = '<strong>';
 		$append = '</strong>';
-		$description  = ! empty( $item->description ) ? '<span>'.esc_attr( $item->description ).'</span>' : '';
-
-		if($depth != 0)
-		{
+		$description = ! empty ( $object->description ) ? '<span>' . esc_attr ( $object->description ) . '</span>' : '';
+		
+		if ($depth != 0) {
 			$description = $append = $prepend = "";
 		}
-
-		$item_output = $args->before;
-		$item_output .= '<a'. $attributes .'>';
-
-		if (!empty($item->alcor_custom_html)) {
-			$item_output .= ' '.$item->alcor_custom_html;
-		} elseif (!empty($item->alcor_icon)) {
-			$item_output .= '<i class="'.$item->alcor_icon.'"></i>';
-		} elseif (!empty($item->alcor_image)) {
-			$item_output .= ' '.$item->alcor_image;
+		
+		$object_output = $args->before;
+		$object_output .= '<a' . $attributes . '>';
+		
+		if (! empty ( $object->alcor_custom_html )) {
+			$object_output .= ' ' . $object->alcor_custom_html;
+		} elseif (! empty ( $object->alcor_icon )) {
+			$object_output .= '<i class="' . $object->alcor_icon . '"></i>';
+		} elseif (! empty ( $object->alcor_image )) {
+			$object_output .= ' ' . $object->alcor_image;
 		}
 		
-		$item_output .= $args->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
-		$item_output .= $description.$args->link_after . '</a>';
-		$item_output .= $args->after;
-
-		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+		$object_output .= $args->link_before . $prepend . apply_filters ( 'the_title', $object->title, $object->ID ) . $append;
+		$object_output .= $description . $args->link_after . '</a>';
+		$object_output .= $args->after;
+		
+		$output .= apply_filters ( 'walker_nav_menu_start_el', $object_output, $object, $depth, $args, $object->ID );
 	}
 }

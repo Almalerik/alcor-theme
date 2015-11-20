@@ -22,7 +22,7 @@ function alcor_customize_register($wp_customize) {
 	
 	// ===== Site Identity =====
 	$wp_customize->add_setting ( 'alcor[logo]', array (
-			'default' => $alcor -> get_setting("logo"),
+			'default' => $alcor->get_setting ( "logo" ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options' 
 	) );
@@ -33,11 +33,52 @@ function alcor_customize_register($wp_customize) {
 			'priority' => 100 
 	) ) );
 	
+	// ===== Alcor Layout =====
+	$wp_customize->add_section ( 'alcor_layout', array (
+			'title' => esc_attr__ ( 'Layout', 'alcor' ),
+			'capability' => 'edit_theme_options',
+			'priority' => 30
+	) );
+	// container_class
+	$wp_customize->add_setting ( 'alcor[container_class]', array (
+			'default' => $alcor->get_setting ( 'container_class' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( 'alcor_container_class', array (
+			'label' => esc_attr__ ( 'Container', 'alcor' ),
+			'section' => 'alcor_layout',
+			'settings' => 'alcor[container_class]',
+			'type' => 'radio',
+			'choices' => array (
+					'container-fluid' => esc_attr__ ( 'Responsive fluid', 'alcor' ),
+					'container' => esc_attr__ ( 'Responsive fixed', 'alcor' )
+			),
+			'priority' => 100
+	) );
+	// fixed container max width
+	$wp_customize->add_setting ( 'alcor[container_class_fixed_max_width]', array (
+			'default' => $alcor->get_setting ( 'container_class_fixed_max_width' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage',
+			'sanitize_callback' => 'sanitize_css_number',
+	) );
+	$wp_customize->add_control ( 'alcor_container_class_fixed_max_width', array (
+			'label' => esc_attr__ ( 'Fixed container max width', 'alcor' ),
+			'description' => __( 'Define also the unit system like px,% ...', 'alcor' ),
+			'section' => 'alcor_layout',
+			'settings' => 'alcor[container_class_fixed_max_width]',
+			'type' => 'text',
+			'priority' => 200
+	) );
+	
 	// ===== Alcor Header =====
 	$wp_customize->add_panel ( 'alcor_header', array (
 			'title' => esc_attr__ ( 'Header', 'alcor' ),
 			'description' => esc_attr__ ( 'Alcor Header', 'alcor' ),
-			'priority' => 30
+			'priority' => 40 
 	) );
 	$wp_customize->add_section ( 'alcor_header_options', array (
 			'title' => esc_attr__ ( 'Options', 'alcor' ),
@@ -50,71 +91,65 @@ function alcor_customize_register($wp_customize) {
 			'default' => $alcor->get_setting ( 'header_fixed_top' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options',
-			'transport' => 'postMessage'
+			'transport' => 'postMessage' 
 	) );
 	$wp_customize->add_control ( 'alcor_header_fixed_top', array (
 			'label' => esc_attr__ ( 'Header fixed top', 'alcor' ),
 			'section' => 'alcor_header_options',
 			'settings' => 'alcor[header_fixed_top]',
 			'type' => 'checkbox',
-			'priority' => 100
+			'priority' => 100 
 	) );
 	// Header background color
 	$wp_customize->add_setting ( 'alcor[header_background_color]', array (
 			'default' => $alcor->get_setting ( 'header_background_color' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options',
-			'transport' => 'postMessage'
+			'transport' => 'postMessage' 
 	) );
 	$wp_customize->add_control ( new WP_Customize_Color_Control ( $wp_customize, 'alcor_header_background_color', array (
 			'label' => __ ( 'Header background color', 'alcor' ),
 			'section' => 'alcor_header_options',
 			'settings' => 'alcor[header_background_color]',
-			'priority' => 200
+			'priority' => 200 
 	) ) );
+	
+	// ===== Alcor background image =====
+	$wp_customize->add_setting ( 'alcor[header_image_show]', array (
+			'default' => $alcor->get_setting ( 'header_image_show' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage' 
+	) );
+	$wp_customize->add_control ( 'alcor_header_image_show', array (
+			'label' => __ ( 'Show header image', 'alcor' ),
+			'section' => 'header_image',
+			'settings' => 'alcor[header_image_show]',
+			'type' => 'checkbox',
+			'priority' => 1 
+	) );
+	$wp_customize->add_setting ( 'alcor[header_image_show_only_homepage]', array (
+			'default' => $alcor->get_setting ( 'header_image_show_only_homepage' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+	) );
+	$wp_customize->add_control ( 'alcor_header_image_show_only_homepage', array (
+			'label' => __ ( 'Show header image only on homepage', 'alcor' ),
+			'section' => 'header_image',
+			'settings' => 'alcor[header_image_show_only_homepage]',
+			'type' => 'checkbox',
+			'priority' => 2
+	) );
+	
+	
+	
+	
+
 
 	
-	// ===== Alcor Options =====
-	$wp_customize->add_panel ( 'alcor_options', array (
-			'title' => esc_attr__ ( 'Alcor Options', 'alcor' ),
-			'description' => esc_attr__ ( 'Alcor Theme Options', 'alcor' ),
-			'priority' => 30 
-	) );
-	$wp_customize->add_section ( 'alcor_general', array (
-			'title' => esc_attr__ ( 'Layout', 'alcor' ),
-			'panel' => 'alcor_options',
-			'capability' => 'edit_theme_options' 
-	) );
-	$wp_customize->add_setting ( 'alcor[wrapper]', array (
-			'default' => $alcor->get_setting ( 'wrapper' ),
-			'type' => 'option',
-			'capability' => 'edit_theme_options' 
-	) );
-	
 	// Add control and output for select field
-	$wp_customize->add_control ( 'alcor_wrapper', array (
-			'label' => esc_attr__ ( 'Layout Container', 'alcor' ),
-			'section' => 'alcor_general',
-			'settings' => 'alcor[wrapper]',
-			'type' => 'radio',
-			'choices' => array (
-					'container-fluid' => esc_attr__ ( 'Responsive fluid', 'alcor' ),
-					'container' => esc_attr__ ( 'Responsive fixed', 'alcor' ) 
-			),
-			'priority' => 100 
-	) );
-	$wp_customize->add_setting ( 'alcor[alcor_wrapper_max_width]', array (
-			'default' => $alcor->get_setting ( 'wrapper_max_width' ),
-			'type' => 'option',
-			'capability' => 'edit_theme_options' 
-	) );
-	$wp_customize->add_control ( 'alcor_wrapper_max_width', array (
-			'label' => esc_attr__ ( 'Fixed wrapper max width', 'alcor' ),
-			'section' => 'alcor_general',
-			'settings' => 'alcor[alcor_wrapper_max_width]',
-			'type' => 'text',
-			'priority' => 200 
-	) );
+
+
 	
 	$wp_customize->add_setting ( 'alcor[layout]', array (
 			'default' => $alcor->get_setting ( 'layout' ),
@@ -187,6 +222,7 @@ if (class_exists ( 'WP_Customize_Control' )) :
 <?php
 		}
 	}
+
 
 
 
