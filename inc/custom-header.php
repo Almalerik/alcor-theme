@@ -29,6 +29,7 @@ function alcor_custom_header_setup() {
 		'width'                  => 1000,
 		'height'                 => 250,
 		'flex-height'            => true,
+		'flex-width'    => true,
 		'wp-head-callback'       => 'alcor_header_style',
 		'admin-head-callback'    => 'alcor_admin_header_style',
 		'admin-preview-callback' => 'alcor_admin_header_image',

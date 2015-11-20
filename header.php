@@ -84,15 +84,14 @@ $alcor = new Alcor_Theme();
 			</div>
 		</div>
 	</div>
-<?php dynamic_sidebar ('sidebar-header');?>
+<?php dynamic_sidebar ('sidebar-header-widget');?>
 	<div id="page" class="site">
 		
 
 		<header id="masthead" class="site-header" role="banner">
-			<div class="site-branding">
+			<div class="site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
 			
-
-		</div>
+				</div>
 			<!-- .site-branding -->
 
 

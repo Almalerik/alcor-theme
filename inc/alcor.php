@@ -131,19 +131,11 @@ class Alcor_Theme {
 	 * @since MyTheme 1.0
 	 */
 	public static function header_output() {
-		$mods = get_option ( 'alcor' );
-		$mod = $mods [$mod_name];
-		$background_color =$mods ['header_background_color'];
-		$header_fix = $mods ['header_fixed_top'];
-		if ($header_fix && isset($background_color)) {
-			$background_color = $this -> hex2rgb($background_color);
-			array_push($background_color, "0.4");
-		}
 		?>
 	      <!--Customizer CSS--> 
 	      <style type="text/css" id="alcor-style">
 	      		
-	           <?php self::generate_css('.navbar-defaultz', implode(",", $background_color), 'header_background_color'); ?> 
+	           <?php self::generate_css('.navbar-defaultz', 'header_background_color', 'header_background_color'); ?> 
 	          
 	      </style> 
 	      <!--/Customizer CSS-->
@@ -165,32 +157,6 @@ class Alcor_Theme {
 				return get_template_directory_uri () . "/assets/images/logo.png";
 			}
 		}
-	}
-	
-	/**
-	 * Returns the rgb values separated by commas
-	 * 
-	 * @param String $hex        	
-	 */
-	function hex2rgb($hex) {
-		$hex = str_replace ( "#", "", $hex );
-		
-		if (strlen ( $hex ) == 3) {
-			$r = hexdec ( substr ( $hex, 0, 1 ) . substr ( $hex, 0, 1 ) );
-			$g = hexdec ( substr ( $hex, 1, 1 ) . substr ( $hex, 1, 1 ) );
-			$b = hexdec ( substr ( $hex, 2, 1 ) . substr ( $hex, 2, 1 ) );
-		} else {
-			$r = hexdec ( substr ( $hex, 0, 2 ) );
-			$g = hexdec ( substr ( $hex, 2, 2 ) );
-			$b = hexdec ( substr ( $hex, 4, 2 ) );
-		}
-		$rgb = array (
-				$r,
-				$g,
-				$b 
-		);
-		// return implode(",", $rgb);
-		return $rgb; // returns an array with the rgb values
 	}
 }
 

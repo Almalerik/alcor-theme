@@ -51,20 +51,10 @@
 	// Header fixed top.
 	wp.customize('alcor[header_fixed_top]', function(value) {
 		value.bind(function(to) {
-			var bg = wp.customize.value('alcor[header_background_color]')();
-			console.log(bg);
-			var bg_rgb = hexToRGB(bg.replace('#', ''));
-			if (wp.customize.value('alcor[header_background_color]')() !== false) {
-			console.log("coloe!!!!!!!!!!");
-		}
 			if (false === to ) {
 				$('#header .navbar-default').removeClass('navbar-fixed-top');
-				bg_rgb.push("0.4");
-				console.log(bg_rgb.push("0.4").join());
 			} else {
 				$('#header .navbar-default').addClass('navbar-fixed-top');
-				bg_rgb.push("1");
-				console.log();
 			}
 		});
 	});
@@ -72,7 +62,6 @@
 	// Header background color.
 	wp.customize('alcor[header_background_color]', function(value) {
 		value.bind(function(to) {
-			
 			if (false === to ) {
 				$('#header .navbar-default').css('background-color', 'transparent');
 			} else {
@@ -82,12 +71,3 @@
 	});
 
 })(jQuery);
-
-//convert a hexidecimal color string to 0..255 R,G,B
-hexToRGB = function(hex){
-    var r = hex >> 16;
-    var g = hex >> 8 & 0xFF;
-    var b = hex & 0xFF;
-    return [r,g,b];
-}
-

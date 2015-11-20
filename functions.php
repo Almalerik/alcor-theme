@@ -107,8 +107,8 @@ add_action( 'wp_enqueue_scripts', 'jquery_scripts' );
  */
 function alcor_widgets_init() {
 	register_sidebar( array(
-			'name'          => esc_html__( 'Header', 'alcor' ),
-			'id'            => 'sidebar-header',
+			'name'          => esc_html__( 'Header widgets', 'alcor' ),
+			'id'            => 'sidebar-header-widget',
 			'description'   => '',
 			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</aside>',
