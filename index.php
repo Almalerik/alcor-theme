@@ -16,16 +16,16 @@ $alcor = new Alcor_Theme();
 
 ?>
 
-<div class="<?php echo $alcor -> get_setting("wrapper");?>">
 	<div class="row">
 	
 		<?php
-		if ($alcor->get_setting ( 'layout' ) == 'left') :
-			get_sidebar ('sidebar.php');
+		if ($alcor->get_setting ( 'page_layout' ) == 'left'):
+				if (!is_home() || (is_home() && !$alcor->get_setting ( 'hide_homepage_sidebar' ))) :
+					get_sidebar ('sidebar.php');
+				endif;
 		endif;
 		?>
-		<div class="<?php echo $alcor -> get_col_class()["content"];?>">
-			<div id="primary" class="content-area">
+			<div id="primary" class="content-area <?php echo $alcor -> get_col_class()["content"];?>">
 				<main id="main" class="site-main" role="main">
 
 		<?php if ( have_posts() ) : ?>
@@ -63,14 +63,15 @@ $alcor = new Alcor_Theme();
 				<!-- #main -->
 			</div>
 			<!-- #primary -->
-		</div>
+
 
 
 <?php
-if ($alcor->get_setting ( 'layout' ) == 'right') :
-	get_sidebar ('sidebar.php');
-endif;
+		if ($alcor->get_setting ( 'page_layout' ) == 'right'):
+				if (!is_home() || (is_home() && !$alcor->get_setting ( 'hide_homepage_sidebar' ))) :
+					get_sidebar ('sidebar.php');
+				endif;
+		endif;
 ?>
 	</div>
 <?php get_footer(); ?>
-</div>

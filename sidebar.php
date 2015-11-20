@@ -11,9 +11,8 @@ if (! is_active_sidebar ( 'sidebar-1' )) {
 }
 $alcor = new Alcor_Theme();
 ?>
-	<div class="<?php echo $alcor -> get_col_class()['sidebar'];?>">
-		<div id="secondary" class="widget-area" role="complementary">
+		<div id="secondary" class="widget-area <?php echo $alcor -> get_col_class()['sidebar'];?>" role="complementary">
 			<?php dynamic_sidebar( 'sidebar-1' ); ?>
 		</div>
 		<!-- #secondary -->
-	</div>
+

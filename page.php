@@ -12,9 +12,20 @@
  * @package alcor
  */
 
-get_header(); ?>
+get_header();
+$alcor = new Alcor_Theme();?>
 
-	<div id="primary" class="content-area">
+	<div class="row">
+	
+		<?php
+		if ($alcor->get_setting ( 'page_layout' ) == 'left'):
+				if (!is_home() || (is_home() && !$alcor->get_setting ( 'hide_homepage_sidebar' ))) :
+					get_sidebar ('sidebar.php');
+				endif;
+		endif;
+		?>
+
+	<div id="primary" class="content-area <?php echo $alcor -> get_col_class()["content"];?>">
 		<main id="main" class="site-main" role="main">
 
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -32,6 +43,16 @@ get_header(); ?>
 
 		</main><!-- #main -->
 	</div><!-- #primary -->
+	
 
-<?php get_sidebar(); ?>
+
+<?php
+		if ($alcor->get_setting ( 'page_layout' ) == 'right'):
+				if (!is_home() || (is_home() && !$alcor->get_setting ( 'hide_homepage_sidebar' ))) :
+					get_sidebar ('sidebar.php');
+				endif;
+		endif;
+?>
+	</div>
+
 <?php get_footer(); ?>

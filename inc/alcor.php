@@ -16,14 +16,18 @@ class Alcor_Theme {
 	public $defaults = array (
 			"container_class" => "container-fluid",
 			"container_class_fixed_max_width" => "1170px",
-			//TODO: DA VERIFICARE
-			"layout" => "full",
-			"sidebar_width" => "3",
-			"logo" => "",
 			"header_fixed_top" => "",
 			"header_background_color" => "",
-			"header_image_show" => true,
-			"header_image_show_only_homepage" => true 
+			"header_image_show" => TRUE,
+			"header_image_show_only_homepage" => TRUE,
+			"header_image_height" => "400px",
+			"page_layout" => "full",
+			"hide_homepage_sidebar" => TRUE,
+			"sidebar_width" => "3",
+			//TODO: DA VERIFICARE
+			
+			
+			"logo" => "",
 	);
 	
 	/**
@@ -52,8 +56,8 @@ class Alcor_Theme {
 	 * @return boolean
 	 */
 	public function has_sidebar() {
-		if ($this->get_setting ( "layout" ) != 'full') {
-			return true;
+		if ($this->get_setting ( "page_layout" ) != 'full') {
+			return TRUE;
 		}
 		return false;
 	}
@@ -67,7 +71,7 @@ class Alcor_Theme {
 				"content" => "col-md-12",
 				"sidebar" => "" 
 		);
-		if ($this->get_setting ( "layout" ) != 'full') {
+		if ($this->get_setting ( "page_layout" ) != 'full') {
 			if (is_numeric ( $this->get_setting ( "sidebar_width" ) )) {
 				$sidebar_width = intval ( $this->get_setting ( "sidebar_width" ) );
 				$result ["content"] = "col-sm-" . (12 - $sidebar_width);
@@ -102,11 +106,11 @@ class Alcor_Theme {
 	 * @param string $postfix
 	 *        	Optional. Anything that needs to be output after the CSS property
 	 * @param bool $echo
-	 *        	Optional. Whether to print directly to the page (default: true).
+	 *        	Optional. Whether to print directly to the page (default: TRUE).
 	 * @return string Returns a single line of CSS with selectors and a property.
 	 * @since Alcor 1.0
 	 */
-	public static function generate_css($selector, $style, $mod_name, $prefix = '', $postfix = '', $echo = true) {
+	public static function generate_css($selector, $style, $mod_name, $prefix = '', $postfix = '', $echo = TRUE) {
 		$return = '';
 		$mods = get_option ( 'alcor' );
 		$mod = isset ( $mods [$mod_name] ) ? $mods [$mod_name] : null;
@@ -136,6 +140,9 @@ class Alcor_Theme {
 		
 		//Fixed Container
 		$result .= "\t" . self::generate_css ( '.alcor-container.container', 'max-width', 'container_class_fixed_max_width', '', '', false ) . "\n";
+		
+		//Header image
+		$result .= "\t" . self::generate_css ( '.alcor-site-branding', 'height', 'header_image_height', '', '', false ) . "\n";
 		
 		$result .= "</style>\n";
 		$result .= "<!--/Customizer CSS-->\n";

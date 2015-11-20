@@ -88,13 +88,13 @@ $alcor = new Alcor_Theme();
 	<div id="page" class="site row">
 	
 		<?php if ( is_customize_preview() ): ?>
-		<div id="site-header-background" class="parallax <?php echo $alcor -> get_setting("header_image_show") && ( ( is_home() && $alcor -> get_setting("header_image_show_only_homepage" ) ) || !$alcor -> get_setting("header_image_show_only_homepage" ) )  ? '' : 'hidden';?>">
-			<div class="site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
+		<div id="site-header-image" class="<?php echo $alcor -> get_setting("header_image_show") && ( ( is_home() && $alcor -> get_setting("header_image_show_only_homepage" ) ) || !$alcor -> get_setting("header_image_show_only_homepage" ) )  ? '' : 'hidden';?>">
+			<div class="alcor-site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
 			</div>
 		</div>
 		<?php elseif ($alcor -> get_setting("header_image_show") && ( ( is_home() && $alcor -> get_setting("header_image_show_only_homepage" ) ) || !$alcor -> get_setting("header_image_show_only_homepage" ) ) ):?>
-		<div id="site-header-background" class="parallax">
-			<div class="site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
+		<div id="site-header-image">
+			<div class="alcor-site-branding parallax" style="background-image: url('<?php header_image(); ?>');">
 			</div>
 		</div>
 		<?php endif;?>

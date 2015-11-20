@@ -59,9 +59,10 @@ body.admin-bar .navbar-fixed-top {
 	margin-bottom: 0px;
 }
 /********  END HEADER_MENU  **********/
-
-.parallax {
-  height: 600px;
+.alcor-site-branding {
+	height: 600px;	
+}
+#site-header-image .parallax {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-attachment: fixed;

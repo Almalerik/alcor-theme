@@ -73,6 +73,53 @@ function alcor_customize_register($wp_customize) {
 			'type' => 'text',
 			'priority' => 200
 	) );
+	// Sidebar layout
+	$wp_customize->add_setting ( 'alcor[page_layout]', array (
+			'default' => $alcor->get_setting ( 'page_layout' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+	) );
+	$wp_customize->add_control ( new Layout_Picker_Custom_Control ( $wp_customize, 'alcor_page_layout', array (
+			'label' => __ ( 'Page layout', 'alcor' ),
+			'section' => 'alcor_layout',
+			'settings' => 'alcor[page_layout]',
+			'priority' => 300
+	) ) );
+	$wp_customize->add_setting ( 'alcor[hide_homepage_sidebar]', array (
+			'default' => $alcor->get_setting ( 'hide_homepage_sidebar' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+	) );
+	$wp_customize->add_control ( 'alcor_hide_homepage_sidebar', array (
+			'label' => __ ( 'Hide sidebar in homepage', 'alcor' ),
+			'section' => 'alcor_layout',
+			'settings' => 'alcor[hide_homepage_sidebar]',
+			'type' => 'checkbox',
+			'priority' => 400
+	) );
+	$wp_customize->add_setting ( 'alcor[sidebar_width]', array (
+			'default' => $alcor->get_setting ( 'sidebar_width' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage',
+	) );
+	
+	// Add control and output for select field
+	$wp_customize->add_control ( 'alcor_sidebar_width', array (
+			'label' => esc_attr__ ( 'Sidebar With', 'alcor' ),
+			'section' => 'alcor_layout',
+			'settings' => 'alcor[sidebar_width]',
+			'type' => 'select',
+			'choices' => array (
+					'1' => esc_attr__ ( '1/12', 'alcor' ),
+					'2' => esc_attr__ ( '2/12', 'alcor' ),
+					'3' => esc_attr__ ( '3/12', 'alcor' ),
+					'4' => esc_attr__ ( '4/12', 'alcor' ),
+					'5' => esc_attr__ ( '5/12', 'alcor' ),
+					'6' => esc_attr__ ( '6/12', 'alcor' )
+			),
+			'priority' => 500
+	) );
 	
 	// ===== Alcor Header =====
 	$wp_customize->add_panel ( 'alcor_header', array (
@@ -140,53 +187,34 @@ function alcor_customize_register($wp_customize) {
 			'type' => 'checkbox',
 			'priority' => 2
 	) );
-	
-	
-	
-	
-
-
-	
-	// Add control and output for select field
-
-
-	
-	$wp_customize->add_setting ( 'alcor[layout]', array (
-			'default' => $alcor->get_setting ( 'layout' ),
+	$wp_customize->add_setting ( 'alcor[header_image_height]', array (
+			'default' => $alcor->get_setting ( 'header_image_height' ),
 			'type' => 'option',
-			'capability' => 'edit_theme_options' 
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage',
+			'sanitize_callback' => 'sanitize_css_number',
 	) );
+	$wp_customize->add_control ( 'alcor_header_image_height', array (
+			'label' => esc_attr__ ( 'Header image height', 'alcor' ),
+			'description' => __( 'Define also the unit system like px,% ...', 'alcor' ),
+			'section' => 'header_image',
+			'settings' => 'alcor[header_image_height]',
+			'type' => 'text',
+			'priority' => 3
+	) );
+	
+
+	
+
+
 	
 	// Add control and output for select field
-	$wp_customize->add_control ( new Layout_Picker_Custom_Control ( $wp_customize, 'alcor_layout', array (
-			'label' => __ ( 'Sidebar Position', 'alcor' ),
-			'section' => 'alcor_general',
-			'settings' => 'alcor[layout]',
-			'priority' => 300 
-	) ) );
+
+
 	
-	$wp_customize->add_setting ( 'alcor[sidebar_width]', array (
-			'default' => $alcor->get_setting ( 'sidebar_width' ),
-			'type' => 'option',
-			'capability' => 'edit_theme_options' 
-	) );
+
 	
-	// Add control and output for select field
-	$wp_customize->add_control ( 'sidebar_width', array (
-			'label' => esc_attr__ ( 'Sidebar With', 'alcor' ),
-			'section' => 'alcor_general',
-			'settings' => 'alcor[sidebar_width]',
-			'type' => 'select',
-			'choices' => array (
-					'1' => esc_attr__ ( '1/12', 'alcor' ),
-					'2' => esc_attr__ ( '2/12', 'alcor' ),
-					'3' => esc_attr__ ( '3/12', 'alcor' ),
-					'4' => esc_attr__ ( '4/12', 'alcor' ),
-					'5' => esc_attr__ ( '5/12', 'alcor' ),
-					'6' => esc_attr__ ( '6/12', 'alcor' ) 
-			),
-			'priority' => 400 
-	) );
+
 }
 add_action ( 'customize_register', 'alcor_customize_register' );
 
@@ -222,15 +250,5 @@ if (class_exists ( 'WP_Customize_Control' )) :
 <?php
 		}
 	}
-
-
-
-
-
 endif;
-
-add_action ( 'admin_menu', 'themename_add_customize_to_admin_menu' );
-function themename_add_customize_to_admin_menu() { // add the 'Customize' link to the admin menu
-	add_theme_page ( 'Customize', 'Customize', 'edit_theme_options', 'customize.php' );
-}
 
