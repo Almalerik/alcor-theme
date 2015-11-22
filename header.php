@@ -18,7 +18,6 @@ $alcor = new Alcor_Theme();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-
 <?php wp_head(); ?>
 
 <!-- Alcor custom style -->
@@ -29,8 +28,11 @@ $alcor = new Alcor_Theme();
 </head>
 
 <body <?php body_class(); ?>>
+
+	<?php include(locate_template('template-parts/header-full-width.php'));?>
+
 	<div class="alcor-container <?php echo $alcor -> get_setting('container_class');?>"> <!-- alcor-container -->
-		<div class="alcor-wrapper">
+
 	
 		<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'alcor' ); ?></a>
 
@@ -81,7 +83,7 @@ $alcor = new Alcor_Theme();
         			</div>
       			</nav>
 		</div>
-	</div>
+
 	
 	<?php dynamic_sidebar ('sidebar-header-widget');?>
 	

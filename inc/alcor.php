@@ -24,6 +24,7 @@ class Alcor_Theme {
 			"page_layout" => "full",
 			"hide_homepage_sidebar" => TRUE,
 			"sidebar_width" => "3",
+			"body_font" => "Lato",
 			//TODO: DA VERIFICARE
 			
 			
@@ -132,8 +133,14 @@ class Alcor_Theme {
 	 * @since Alcor 1.0
 	 */
 	public static function header_output() {
-		$result = "<!--Customizer CSS-->\n";
+		$mods = get_option ( 'alcor' );
+		$mod = isset ( $mods ["body_font"] ) ? str_replace(" ", "+", $mods ["body_font"]) : 'Lato';
+		$result = '<link href="https://fonts.googleapis.com/css?family=' . $mod . '" rel="stylesheet" type="text/css">';
+		$result .= "<!--Customizer CSS-->\n";
 		$result .= '<style type="text/css" id="alcor-style-inline">' . "\n";
+
+		//Body font family
+		$result .= "\t" . self::generate_css ( 'body', 'font-family', 'body_font', '\'', '\'', false ) . "\n";
 		
 		//Navbar background color
 		$result .= "\t" . self::generate_css ( '.navbar-default', 'background-color', 'header_background_color', '', '', false ) . "\n";

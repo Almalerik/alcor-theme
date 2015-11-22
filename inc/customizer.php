@@ -1,6 +1,6 @@
 <?php
-require_once 'nav/layout/layout-picker-custom-control.php';
-
+require_once 'wordpress-theme-customizer-custom-controls/layout/layout-picker-custom-control.php';
+require_once 'wordpress-theme-customizer-custom-controls/select/google-font-dropdown-custom-control.php';
 /**
  * alcor Theme Customizer.
  *
@@ -202,13 +202,37 @@ function alcor_customize_register($wp_customize) {
 			'type' => 'text',
 			'priority' => 3
 	) );
+	// ===== Alcor Style =====
+	$wp_customize->add_panel ( 'alcor_style', array (
+			'title' => esc_attr__ ( 'Styles', 'alcor' ),
+			'description' => esc_attr__ ( 'Alcor Styles', 'alcor' ),
+			'priority' => 50
+	) );
+	$wp_customize->add_section ( 'alcor_fonts', array (
+			'title' => esc_attr__ ( 'Fonts', 'alcor' ),
+			'capability' => 'edit_theme_options',
+			'panel' => 'alcor_style',
+			'priority' => 100
+	) );
 	
-
-	
-
-
-	
-	// Add control and output for select field
+	// Header fixed top
+	$wp_customize->add_setting ( 'alcor[body_font]', array (
+			'default' => $alcor->get_setting ( 'body_font' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options'
+	) );
+	$wp_customize->add_control ( 'alcor_body_font', array (
+			'label' => esc_attr__ ( 'General font family', 'alcor' ),
+			'section' => 'alcor_fonts',
+			'settings' => 'alcor[body_font]',
+			'type' => 'select',
+			'choices' => array (
+					'Open Sans' => esc_attr__ ( 'Open Sans', 'alcor' ),
+					'Roboto' => esc_attr__ ( 'Roboto', 'alcor' ),
+					'Lato' => esc_attr__ ( 'Lato', 'alcor' ),
+			),
+			'priority' => 500
+	) );
 
 
 	

@@ -200,3 +200,9 @@ require get_template_directory() . '/inc/jetpack.php';
  * Load Alcor Nav
  */
 require get_template_directory() . '/inc/nav/nav.php';
+
+
+/**
+ * Load Alcor Nav
+ */
+require get_template_directory() . '/inc/slider.php';

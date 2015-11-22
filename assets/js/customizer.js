@@ -115,6 +115,20 @@
 		});
 	});
 
-
+	// Body font
+	wp.customize('alcor[body_font]', function(value) {
+		value.bind(function(to) {
+			console.log(to);
+			var ff = [];
+			ff.push(to);
+			$("body").css('background-color', "black !important");
+			WebFont.load({
+			    google: {
+			      families: ff
+			    }
+			  });
+			$(".alcor-container").css('font-family', "'"+to+"' !important");
+		});
+	});
 
 })(jQuery);
