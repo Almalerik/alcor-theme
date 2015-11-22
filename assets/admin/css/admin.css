@@ -38,3 +38,9 @@
     vertical-align: middle;
     margin-left: 10px;
 }
+
+
+.at-repater-block img {
+	max-width: 200px;
+	max-height: 200px;
+}
