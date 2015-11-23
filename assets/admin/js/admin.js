@@ -72,6 +72,45 @@ jQuery(document).ready(function($) {
         custom_uploader.on('select', function() {
             attachment = custom_uploader.state().get('selection').first().toJSON();
             $('#upload_image').val(attachment.url);
+            //$('#upload_image').val(attachment.id);
+        });
+ 
+        //Open the uploader dialog
+        custom_uploader.open();
+ 
+    });
+	
+	$(".alcor-slide-edit-container").on('click', '.alcor-set-slide-thumbnail', function(e) {
+		 
+        e.preventDefault();
+        var $this = $(this);
+ 
+        //If the uploader object has already been created, reopen the dialog
+        if (custom_uploader) {
+            custom_uploader.open();
+            return;
+        }
+ 
+        //Extend the wp.media object
+        custom_uploader = wp.media.frames.file_frame = wp.media({
+            title: 'Insert Media',
+            button: {
+                text: 'Choose Image'
+            },
+            multiple: false
+        });
+ 
+        //When a file is selected, grab the URL and set it as the text field's value
+        custom_uploader.on('select', function() {
+            attachment = custom_uploader.state().get('selection').first().toJSON();
+            console.log(attachment.url);
+            console.log(attachment.id);
+            console.log(attachment.sizes.thumbnail);
+            //$('#upload_image').val(attachment.url);
+            //$('#upload_image').val(attachment.id);
+            var $wrapper = $this.closest("td");
+            $('alcor-set-slide-thumbnail', $wrapper).css("display", "none");
+            $wrapper.append('<img id="theImg" src="'+attachment.sizes.thumbnail.url+'" />')
         });
  
         //Open the uploader dialog
