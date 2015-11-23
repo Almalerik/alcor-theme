@@ -175,6 +175,8 @@ jQuery(document).ready(function($) {
 	    var $wrapper = $(this).closest("tr").remove();
 	}
     });
+    
+    $( "#alcor-edit-slide-wrapper .accordion" ).accordion({collapsible: true});
 
 });
 

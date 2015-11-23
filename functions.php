@@ -171,6 +171,7 @@ if (! function_exists ( 'alcor_admin_script' )) {
 				'jquery',
 				'alcor-select2-script' 
 		) );
+		wp_enqueue_script( 'jquery-ui-accordion' );
 	}
 }
 add_action ( 'admin_enqueue_scripts', 'alcor_admin_script' );

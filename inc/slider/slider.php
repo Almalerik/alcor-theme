@@ -288,12 +288,25 @@ class Alcor_Slider_Meta_Box {
 					<label for="_alcor_slides[<?php echo $i;?>][link]"><?php _e('Link', 'alcor')?></label>
 					<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][link]" name="_alcor_slides[<?php echo $i;?>][link]"
 						value="<?php echo esc_attr( $slide['link'] );?>" />
-					<label for="_alcor_slides[<?php echo $i;?>][first_button_text]"><?php _e('First button text', 'alcor')?></label>
-					<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_text]" name="_alcor_slides[<?php echo $i;?>][first_button_text]"
-						value="<?php echo esc_attr( $slide['first_button_text'] );?>" />
-					<label for="_alcor_slides[<?php echo $i;?>][first_button_url]"><?php _e('First button url', 'alcor')?></label>
-					<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_url]" name="_alcor_slides[<?php echo $i;?>][first_button_url]"
-						value="<?php echo esc_attr( $slide['first_button_url'] );?>" /
+					<div class="accordion">
+						<h3>Fist button</h3>
+
+						<div>
+							<label for="_alcor_slides[<?php echo $i;?>][first_button_text]"><?php _e('First button text', 'alcor')?></label>
+							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_text]" name="_alcor_slides[<?php echo $i;?>][first_button_text]"
+								value="<?php echo esc_attr( $slide['first_button_text'] );?>" />
+							<label for="_alcor_slides[<?php echo $i;?>][first_button_url]"><?php _e('First button url', 'alcor')?></label>
+							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_url]" name="_alcor_slides[<?php echo $i;?>][first_button_url]"
+								value="<?php echo esc_attr( $slide['first_button_url'] );?>" />
+						</div>
+
+						<h3>Section 2</h3>
+
+						<div>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+							velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna.</div>
+					</div>
+
+
 				</td>
 			</tr>
 			<?php $i++;}?>
@@ -366,7 +379,7 @@ class Alcor_Slider_Meta_Box {
 						'title' => isset ( $slide ['title'] ) ? sanitize_text_field ( $slide ['title'] ) : null,
 						'link' => isset ( $slide ['link'] ) ? sanitize_text_field ( $slide ['link'] ) : null,
 						'first_button_text' => isset ( $slide ['first_button_text'] ) ? sanitize_text_field ( $slide ['first_button_text'] ) : null,
-						'first_button_url' => isset ( $slide ['first_button_url'] ) ? sanitize_text_field ( $slide ['first_button_url'] ) : null
+						'first_button_url' => isset ( $slide ['first_button_url'] ) ? sanitize_text_field ( $slide ['first_button_url'] ) : null 
 				);
 			}
 		}
