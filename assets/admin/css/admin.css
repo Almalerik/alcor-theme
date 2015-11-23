@@ -6,13 +6,14 @@
 	color: red;
 }
 
-.alcor-menu-options, .alcor-menu-custom-html, .alcor-menu-icon, .alcor-menu-image {
+.alcor-menu-options, .alcor-menu-custom-html, .alcor-menu-icon,
+	.alcor-menu-image {
 	width: 100%;
 	float: left;
 	padding: 15px 0;
 }
 
-.alcor-menu-options input{
+.alcor-menu-options input {
 	width: 31%;
 }
 
@@ -22,25 +23,73 @@
 	padding: 5px 0;
 }
 
-.alcor-menu-custom-html input, .alcor-menu-icon select, .alcor-menu-image input{
+.alcor-menu-custom-html input, .alcor-menu-icon select,
+	.alcor-menu-image input {
 	width: 70%;
 }
 
 #customize-controls .alcor-customize-sidebar img {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 80px;
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	max-width: 80px;
 }
 
 #customize-controls .alcor-customize-sidebar input {
-    position: relative;
-    vertical-align: middle;
-    margin-left: 10px;
+	position: relative;
+	vertical-align: middle;
+	margin-left: 10px;
 }
 
+/********** ALCOR SLIDER **********/
+#alcor-edit-slide-template {
+	display: none;
+}
 
-.at-repater-block img {
-	max-width: 200px;
+#alcor-edit-slide-wrapper tr {
+	border-bottom: 1px solid #dedede;
+	padding: 5px 0;
+}
+
+#alcor-edit-slide-wrapper .alcor-slide-thumbnail img {
 	max-height: 200px;
+	max-width: 200px;
+}
+
+#alcor-edit-slide-wrapper .alcor-slide-meta {
+	position: relative;
+}
+
+#alcor-edit-slide-wrapper .alcor-slide-command-move {
+	background-color: #ededed;
+	text-align: center
+}
+
+#alcor-edit-slide-wrapper .alcor-slide-command-move:hover {
+	cursor: move;
+}
+
+#alcor-edit-slide-wrapper .alcor-slide-meta .fa-trash {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 5px;
+	background-color: #cc3300;
+	color: #ededed;
+}
+
+#alcor-edit-slide-wrapper .ui-sortable-helper {
+	border: 1px solid #bfbfbf;
+	margin: 0;
+	padding: 0;
+	background-color: #ededed;
+}
+
+.alcor-slide-edit-sortable-placeholder {
+	background-color: #bfbfbf;
+	margin: 2px 0;
+}
+
+#alcor-edit-slide-wrapper .fa-trash {
+	cursor: pointer;
 }
