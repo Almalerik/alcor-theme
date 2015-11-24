@@ -62,21 +62,24 @@ body.admin-bar .navbar-fixed-top {
 .alcor-site-branding {
 	height: 600px;	
 }
-#site-header-image .parallax {
+#site-header-image .alcor-parallax {
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
 }
-.parallax h1 {
-  color: rgba(255, 255, 255, 0.8);
+.background-attachment-fixed {
+	background-attachment: fixed;
+}
+.alcor-site-branding h2 {
+  color: rgba(255, 255, 255, 1);
   font-size: 48px;
-  line-height: 600px;
+  line-height: 300px;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+
 
 /******** MENU **********/
 .alcor-menu li {

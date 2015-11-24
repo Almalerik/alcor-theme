@@ -253,7 +253,11 @@ class Alcor_Slider_Meta_Box {
 				"image_id" => "",
 				"title" => "",
 				"link" => "",
-				"subtitle" => "" 
+				"subtitle" => "",
+				"first_button_text" => "",
+				"first_button_url" => "",
+				"second_button_text" => "",
+				"second_button_url" => "",
 		);
 		if (empty ( $slides ) || ! is_array ( $slides )) {
 			$slides [] = $default;
@@ -289,22 +293,29 @@ class Alcor_Slider_Meta_Box {
 					<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][link]" name="_alcor_slides[<?php echo $i;?>][link]"
 						value="<?php echo esc_attr( $slide['link'] );?>" />
 					<div class="accordion">
-						<h3>Fist button</h3>
-
+						<h3><?php _e("Fist button", "alcor");?></h3>
 						<div>
-							<label for="_alcor_slides[<?php echo $i;?>][first_button_text]"><?php _e('First button text', 'alcor')?></label>
+							<p>
+							<label for="_alcor_slides[<?php echo $i;?>][first_button_text]"><?php _e('Text', 'alcor')?></label>
 							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_text]" name="_alcor_slides[<?php echo $i;?>][first_button_text]"
 								value="<?php echo esc_attr( $slide['first_button_text'] );?>" />
-							<label for="_alcor_slides[<?php echo $i;?>][first_button_url]"><?php _e('First button url', 'alcor')?></label>
+							<label for="_alcor_slides[<?php echo $i;?>][first_button_url]"><?php _e('Url', 'alcor')?></label>
 							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][first_button_url]" name="_alcor_slides[<?php echo $i;?>][first_button_url]"
 								value="<?php echo esc_attr( $slide['first_button_url'] );?>" />
+						</p>
 						</div>
+						<h3><?php _e("Second button", "alcor");?></h3>
 
-						<h3>Section 2</h3>
-
-						<div>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-							velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna.</div>
-					</div>
+						<div>
+							<p>
+							<label for="_alcor_slides[<?php echo $i;?>][second_button_text]"><?php _e('Text', 'alcor')?></label>
+							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][second_button_text]" name="_alcor_slides[<?php echo $i;?>][second_button_text]"
+								value="<?php echo esc_attr( $slide['second_button_text'] );?>" />
+							<label for="_alcor_slides[<?php echo $i;?>][second_button_url]"><?php _e('Url', 'alcor')?></label>
+							<input type="text" class="large-text" id="_alcor_slides[<?php echo $i;?>][second_button_url]" name="_alcor_slides[<?php echo $i;?>][second_button_url]"
+								value="<?php echo esc_attr( $slide['second_button_url'] );?>" />
+						</p>
+						</div>					</div>
 
 
 				</td>
@@ -379,7 +390,9 @@ class Alcor_Slider_Meta_Box {
 						'title' => isset ( $slide ['title'] ) ? sanitize_text_field ( $slide ['title'] ) : null,
 						'link' => isset ( $slide ['link'] ) ? sanitize_text_field ( $slide ['link'] ) : null,
 						'first_button_text' => isset ( $slide ['first_button_text'] ) ? sanitize_text_field ( $slide ['first_button_text'] ) : null,
-						'first_button_url' => isset ( $slide ['first_button_url'] ) ? sanitize_text_field ( $slide ['first_button_url'] ) : null 
+						'first_button_url' => isset ( $slide ['first_button_url'] ) ? sanitize_text_field ( $slide ['first_button_url'] ) : null,
+						'second_button_text' => isset ( $slide ['second_button_text'] ) ? sanitize_text_field ( $slide ['second_button_text'] ) : null,
+						'second_button_url' => isset ( $slide ['second_button_url'] ) ? sanitize_text_field ( $slide ['second_button_url'] ) : null
 				);
 			}
 		}
@@ -417,4 +430,64 @@ class Alcor_Slider_Meta_Box {
 		// Wrong or missing nonce
 		return wp_verify_nonce ( $_POST [$this->nonce_name], __FILE__ );
 	}
+}
+
+function get_alcor_slider($id){
+	$slides = get_post_meta ( $id, '_alcor_slides', true );
+	if (!empty ( $slides ) && is_array ( $slides )) {
+	?>
+	<div class="swiper-container alcor-slider-<?php echo $id;?>">
+		<div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <?php foreach ( $slides as $slide ): ?>
+	        	<div class="swiper-slide">
+	        	<?php echo wp_get_attachment_image( $slide['image_id'], 'full' ); ?>
+	        	</div>
+	        <?php endforeach;?>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	    
+	    <!-- If we need navigation buttons -->
+	    <div class="swiper-button-prev"></div>
+	    <div class="swiper-button-next"></div>
+	    
+	    <!-- If we need scrollbar -->
+	    <div class="swiper-scrollbar"></div>
+	</div>
+	<script>
+	jQuery(document).ready(function($) {
+	var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true
+    });
+	});
+	</script>
+	<style>    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+    </style></style>
+	
+	<?php
+	}
+	
 }

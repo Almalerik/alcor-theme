@@ -131,7 +131,7 @@ function alcor_customize_register($wp_customize) {
 			'title' => esc_attr__ ( 'Options', 'alcor' ),
 			'capability' => 'edit_theme_options',
 			'panel' => 'alcor_header',
-			'priority' => 30 
+			'priority' => 10 
 	) );
 	// Header fixed top
 	$wp_customize->add_setting ( 'alcor[header_fixed_top]', array (
@@ -141,10 +141,14 @@ function alcor_customize_register($wp_customize) {
 			'transport' => 'postMessage' 
 	) );
 	$wp_customize->add_control ( 'alcor_header_fixed_top', array (
-			'label' => esc_attr__ ( 'Header fixed top', 'alcor' ),
+			'label' => esc_attr__ ( 'Position', 'alcor' ),
 			'section' => 'alcor_header_options',
 			'settings' => 'alcor[header_fixed_top]',
-			'type' => 'checkbox',
+			'type' => 'select',
+			'choices' => array (
+					'' => __ ( 'Top', 'alcor' ),
+					'navbar-fixed-top' => __ ( 'Fixed top', 'alcor' )
+			),
 			'priority' => 100 
 	) );
 	// Header background color
@@ -155,12 +159,26 @@ function alcor_customize_register($wp_customize) {
 			'transport' => 'postMessage' 
 	) );
 	$wp_customize->add_control ( new WP_Customize_Color_Control ( $wp_customize, 'alcor_header_background_color', array (
-			'label' => __ ( 'Header background color', 'alcor' ),
+			'label' => __ ( 'Background color', 'alcor' ),
 			'section' => 'alcor_header_options',
 			'settings' => 'alcor[header_background_color]',
 			'priority' => 200 
 	) ) );
-	
+	// Header margin bottom
+	$wp_customize->add_setting ( 'alcor[header_margin_bottom]', array (
+			'default' => $alcor->get_setting ( 'header_margin_bottom' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( 'alcor_header_margin_bottom', array (
+			'label' => __ ( 'Margin bottom', 'alcor' ),
+			'description' => __( 'Define also the unit system like px,% ...', 'alcor' ),
+			'section' => 'alcor_header_options',
+			'settings' => 'alcor[header_margin_bottom]',
+			'sanitize_callback' => 'sanitize_css_number',
+			'priority' => 300
+	) );
 	// ===== Alcor background image =====
 	$wp_customize->add_setting ( 'alcor[header_image_show]', array (
 			'default' => $alcor->get_setting ( 'header_image_show' ),
@@ -172,21 +190,55 @@ function alcor_customize_register($wp_customize) {
 			'label' => __ ( 'Show header image', 'alcor' ),
 			'section' => 'header_image',
 			'settings' => 'alcor[header_image_show]',
-			'type' => 'checkbox',
-			'priority' => 1 
+			'type' => 'select',
+			'choices' => array (
+					'hidden' => __ ( 'Never', 'alcor' ),
+					'homepage-only' => __ ( 'Only in hompage', 'alcor' ),
+					'all' => __ ( 'Everywhere', 'alcor' )
+			),
+			'priority' => 1
 	) );
-	$wp_customize->add_setting ( 'alcor[header_image_show_only_homepage]', array (
-			'default' => $alcor->get_setting ( 'header_image_show_only_homepage' ),
+	// ===== Alcor background image parallax =====
+	$wp_customize->add_setting ( 'alcor[header_image_parallax]', array (
+			'default' => $alcor->get_setting ( 'header_image_parallax' ),
 			'type' => 'option',
 			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
 	) );
-	$wp_customize->add_control ( 'alcor_header_image_show_only_homepage', array (
-			'label' => __ ( 'Show header image only on homepage', 'alcor' ),
+	$wp_customize->add_control ( 'alcor_header_image_parallax', array (
+			'label' => __ ( 'Use scroll parallax effect', 'alcor' ),
 			'section' => 'header_image',
-			'settings' => 'alcor[header_image_show_only_homepage]',
+			'settings' => 'alcor[header_image_parallax]',
 			'type' => 'checkbox',
 			'priority' => 2
 	) );
+	// ===== Alcor background image text =====
+	$wp_customize->add_setting ( 'alcor[header_image_text]', array (
+			'default' => $alcor->get_setting ( 'header_image_text' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( 'alcor_header_image_text', array (
+			'label' => __ ( 'Text', 'alcor' ),
+			'section' => 'header_image',
+			'settings' => 'alcor[header_image_text]',
+			'priority' => 10
+	) );
+	// ===== Alcor background image text color =====
+	$wp_customize->add_setting ( 'alcor[header_image_text_color]', array (
+			'default' => $alcor->get_setting ( 'header_image_text_color' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage'
+	) );
+	$wp_customize->add_control ( new WP_Customize_Color_Control ( $wp_customize, 'alcor_header_image_text_color', array (
+			'label' => __ ( 'Text color', 'alcor' ),
+			'section' => 'header_image',
+			'settings' => 'alcor[header_image_text_color]',
+			'priority' => 20
+	) ) );
+	// ===== Alcor background image height =====
 	$wp_customize->add_setting ( 'alcor[header_image_height]', array (
 			'default' => $alcor->get_setting ( 'header_image_height' ),
 			'type' => 'option',
@@ -200,7 +252,27 @@ function alcor_customize_register($wp_customize) {
 			'section' => 'header_image',
 			'settings' => 'alcor[header_image_height]',
 			'type' => 'text',
-			'priority' => 3
+			'priority' => 2
+	) );
+	//Header slider
+	$wp_customize->add_section ( 'alcor_header_slider', array (
+			'title' => esc_attr__ ( 'Slider', 'alcor' ),
+			'capability' => 'edit_theme_options',
+			'panel' => 'alcor_header',
+			'priority' => 30
+	) );
+	$wp_customize->add_setting ( 'alcor[header_slider_show]', array (
+			'default' => $alcor->get_setting ( 'header_slider_show' ),
+			'type' => 'option',
+			'capability' => 'edit_theme_options',
+			'transport' => 'postMessage',
+	) );
+	$wp_customize->add_control ( 'alcor_header_slider_show', array (
+			'label' => __ ( 'Show slider', 'alcor' ),
+			'section' => 'alcor_header_slider',
+			'settings' => 'alcor[header_slider_show]',
+			'type' => 'checkbox',
+			'priority' => 1
 	) );
 	// ===== Alcor Style =====
 	$wp_customize->add_panel ( 'alcor_style', array (
@@ -215,7 +287,7 @@ function alcor_customize_register($wp_customize) {
 			'priority' => 100
 	) );
 	
-	// Header fixed top
+	// Font
 	$wp_customize->add_setting ( 'alcor[body_font]', array (
 			'default' => $alcor->get_setting ( 'body_font' ),
 			'type' => 'option',

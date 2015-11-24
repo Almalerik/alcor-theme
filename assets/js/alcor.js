@@ -24,11 +24,12 @@ jQuery(document).ready(function($) {
 	if("ontouchstart" in window){
 	    document.documentElement.className = document.documentElement.className + " touch";
 	}
-	if(!$("html").hasClass("touch")){
-	    /* background fix */
-	    $(".parallax").css("background-attachment", "fixed");
-	}
 
+	//if(!$("html").hasClass("touch")){
+	    /* background fix */
+	    //$(".parallax").css("background-attachment", "fixed");
+	//}
+	
 	/* fix vertical when not overflow
 	call fullscreenFix() if .fullscreen content changes */
 	function fullscreenFix(){

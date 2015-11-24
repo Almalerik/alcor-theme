@@ -141,7 +141,8 @@ jQuery(document).ready(function($) {
 	placeholder : "alcor-slide-edit-sortable-placeholder",
 	cursor : "move",
 	handle : ".alcor-slide-command-move",
-	opacity : 0.8
+	opacity : 0.8,
+	activate: function( event, ui ) {$("#alcor-edit-slide-wrapper .accordion" ).accordion('option', {active: false});}
     });
     $("#alcor-edit-slide-wrapper table").disableSelection()
 
@@ -176,7 +177,7 @@ jQuery(document).ready(function($) {
 	}
     });
     
-    $( "#alcor-edit-slide-wrapper .accordion" ).accordion({collapsible: true});
+    $( "#alcor-edit-slide-wrapper .accordion" ).accordion({active:false, collapsible: true,heightStyle: "content",icons: { "header": "dashicons-before dashicons-arrow-down-alt2", "activeHeader": "dashicons-before dashicons-arrow-up-alt2" }});
 
 });
 

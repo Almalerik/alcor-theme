@@ -135,7 +135,9 @@ function alcor_scripts() {
 	wp_enqueue_style ( 'alcor-bootstrap-style', get_template_directory_uri () . '/assets/bootstrap/3.3.5/css/bootstrap.min.css', array (
 			'alcor-style' 
 	) );
-	
+	wp_enqueue_script ( 'alcor-bootstrap-script', get_template_directory_uri () . '/assets/bootstrap/3.3.5/js/bootstrap.min.js', array (
+			'jquery'
+	), '20130115', true );	
 	wp_enqueue_style ( 'alcor-style', get_stylesheet_uri () );
 	wp_enqueue_style ( 'alcor-style-css', get_template_directory_uri () . '/assets/css/alcor.css', array (
 			'alcor-bootstrap-style' 
@@ -151,6 +153,11 @@ function alcor_scripts() {
 			'jquery' 
 	), '20130115', true );
 	
+	wp_enqueue_style ( 'alcor-swiper-css', get_template_directory_uri () . '/assets/swiper/3.2.0/dist/css/swiper.min.css');
+	wp_enqueue_script ( 'alcor-swiper-js', get_template_directory_uri () . '/assets/swiper/3.2.0/dist/js/swiper.jquery.min.js', array (
+			'jquery'
+	), '20130115', true );
+	
 	if (is_singular () && comments_open () && get_option ( 'thread_comments' )) {
 		wp_enqueue_script ( 'comment-reply' );
 	}
@@ -162,7 +169,7 @@ if (! function_exists ( 'alcor_admin_script' )) {
 		wp_register_style ( 'alcor-admin-style', get_template_directory_uri () . '/assets/admin/css/admin.css' );
 		wp_enqueue_style ( 'alcor-admin-style' );
 		wp_enqueue_media ();
-		wp_enqueue_style ( 'alcor-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );
+		wp_enqueue_style ( 'alcor-fontawesome', get_template_directory_uri () . '/assets/font-awesome/4.4.0/css/font-awesome.min.css' );
 		wp_enqueue_style ( 'alcor-select2', get_template_directory_uri () . '/assets/admin/select2/css/select2.min.css' );
 		wp_enqueue_script ( 'alcor-select2-script', get_template_directory_uri () . '/assets/admin/select2/js/select2.min.js', array (
 				'jquery' 
@@ -171,6 +178,7 @@ if (! function_exists ( 'alcor_admin_script' )) {
 				'jquery',
 				'alcor-select2-script' 
 		) );
+		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script( 'jquery-ui-accordion' );
 	}
 }

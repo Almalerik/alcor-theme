@@ -18,17 +18,20 @@ class Alcor_Theme {
 			"container_class_fixed_max_width" => "1170px",
 			"header_fixed_top" => "",
 			"header_background_color" => "",
-			"header_image_show" => TRUE,
-			"header_image_show_only_homepage" => TRUE,
-			"header_image_height" => "400px",
+			"header_margin_bottom" => "0px",
+			"header_image_show" => "homepage-only",
+			"header_image_parallax" => TRUE,
+			"header_image_height" => "250px",
+			"header_image_text" => "Alcor",
+			"header_image_text_color" => "#ffffff",
+			"header_slider_show" => TRUE,
 			"page_layout" => "full",
 			"hide_homepage_sidebar" => TRUE,
 			"sidebar_width" => "3",
 			"body_font" => "Lato",
-			//TODO: DA VERIFICARE
+			// TODO: DA VERIFICARE
 			
-			
-			"logo" => "",
+			"logo" => "" 
 	);
 	
 	/**
@@ -86,8 +89,6 @@ class Alcor_Theme {
 	 */
 	public function get_custom_style() {
 		$result = "";
-		if ($this->get_setting ( "wrapper_max_width" ) != "")
-			$result .= ".alcor-wrapper {max-width: " . $this->get_setting ( "wrapper_max_width" ) . "};\n";
 	}
 	
 	/**
@@ -134,22 +135,33 @@ class Alcor_Theme {
 	 */
 	public static function header_output() {
 		$mods = get_option ( 'alcor' );
-		$mod = isset ( $mods ["body_font"] ) ? str_replace(" ", "+", $mods ["body_font"]) : 'Lato';
+		$mod = isset ( $mods ["body_font"] ) ? str_replace ( " ", "+", $mods ["body_font"] ) : 'Lato';
 		$result = '<link href="https://fonts.googleapis.com/css?family=' . $mod . '" rel="stylesheet" type="text/css">';
 		$result .= "<!--Customizer CSS-->\n";
 		$result .= '<style type="text/css" id="alcor-style-inline">' . "\n";
-
-		//Body font family
+		
+		// Body font family
 		$result .= "\t" . self::generate_css ( 'body', 'font-family', 'body_font', '\'', '\'', false ) . "\n";
 		
-		//Navbar background color
+		// Navbar background color
 		$result .= "\t" . self::generate_css ( '.navbar-default', 'background-color', 'header_background_color', '', '', false ) . "\n";
 		
-		//Fixed Container
+		// Fixed Container
 		$result .= "\t" . self::generate_css ( '.alcor-container.container', 'max-width', 'container_class_fixed_max_width', '', '', false ) . "\n";
 		
-		//Header image
+		// Header margin bottom
+		$result .= "\t" . self::generate_css ( '#header', 'margin-bottom', 'header_margin_bottom', '', '', false ) . "\n";
+		
+		// Header image
 		$result .= "\t" . self::generate_css ( '.alcor-site-branding', 'height', 'header_image_height', '', '', false ) . "\n";
+
+		// Background image text color
+		$result .= "\t" . self::generate_css ( '.alcor-site-branding h2', 'color', 'header_image_text_color', '', '', false ) . "\n";
+		
+		// Add this style if not in homepage
+		if (!is_home()) {
+			$result .= "\t.homepage-only{display: none;}\n";
+		}
 		
 		$result .= "</style>\n";
 		$result .= "<!--/Customizer CSS-->\n";
@@ -179,28 +191,14 @@ class Alcor_Theme {
 	 * @return string Returns hidden if header background image must be hidden.
 	 * @since Alcor 1.0
 	 */
-	public function get_header_background_image_class() {
-		$return = '';
-		if (is_customize_preview ()) {
-			if (! $alcor->get_setting ( "header_image_show" )) {
-				return 'hidden';
-			} else if ($alcor->get_setting ( "header_image_show_only_homepage" ) && is_home ()) {
-				return 'hidden';
-			}
-		} else {
-		}
-		
-		$alcor_logo = $this->get_setting ( 'logo' );
-		
-		if (isset ( $alcor_logo ) && $alcor_logo != "") {
-			return $alcor_logo;
-		} else {
-			if (file_exists ( get_stylesheet_directory () . "/assets/images/logo.png" )) {
-				return get_stylesheet_directory_uri () . "/assets/images/logo.png";
-			} else {
-				return get_template_directory_uri () . "/assets/images/logo.png";
+	public function show_header_background_image() {
+		if (! is_customize_preview ()) {
+			$h = $this->get_setting ( 'header_image_show' );
+			if ($h == 'hidden' || (! is_home () && $h == 'homepage')) {
+				return false;
 			}
 		}
+		return TRUE;
 	}
 }
 
@@ -209,11 +207,10 @@ add_action ( 'wp_head', array (
 		'Alcor_Theme',
 		'header_output' 
 ) );
-
-function sanitize_css_number( $value ) {
-	str_replace (",", ".", $value);
-	if ( is_numeric ($value) ) {
-		return  $value . "px";
+function sanitize_css_number($value) {
+	str_replace ( ",", ".", $value );
+	if (is_numeric ( $value )) {
+		return $value . "px";
 	}
 	return $value;
 }
